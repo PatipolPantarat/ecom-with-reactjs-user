@@ -1,6 +1,6 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-export default function CheckBox() {
+export function CheckBox() {
   const [isChecked, setIsChecked] = useState(false);
   return (
     <div
