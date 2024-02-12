@@ -41,7 +41,7 @@ export const Navbar = () => {
               <ShoppingCartIcon className="h-8 w-8 text-primary hover:scale-105 duration-150" />
             </Link>
           </div>
-          <Link to={"/account"} className=" w-28 flex justify-end">
+          <Link to={"/account/profile"} className=" w-28 flex justify-end">
             {isAuthenticated ? "true" : "false"}
           </Link>
           <div className=" w-28 flex justify-end">

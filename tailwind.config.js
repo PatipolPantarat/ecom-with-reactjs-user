@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        "4/3": "4 / 3",
+        "3/4": "3 / 4",
+      },
+    },
     colors: {
       primary: {
         DEFAULT: "#00bbff",
@@ -42,6 +47,9 @@ export default {
         light: "#ffedf3",
       },
       white: "#ffffff",
+      rose: {
+        500: "#f43f5e",
+      },
     },
   },
   plugins: [import("@tailwindcss/forms")],

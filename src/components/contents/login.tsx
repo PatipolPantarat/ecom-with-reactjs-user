@@ -1,32 +1,69 @@
 import { useAuth } from "../../context/AuthContext";
 import { Button } from "../button";
 import { useNavigate } from "react-router-dom";
-import { Section } from "../section";
 import { Box } from "../box";
 import { InputGroup } from "../input/inputbox";
+import { GoogleButton } from "../googlebutton";
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const handleLogin = () => {
     login();
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
   return (
-    <Section className="">
-      <Box className="flex flex-col gap-5">
-        <div className="border">
-          <h1 className="text-3xl font-medium text-dark">Login</h1>
+    <section className="max-w-[1024px] mx-auto">
+      <Box className="grid grid-cols-5 place-items-center">
+        <div className=" col-span-3 h-full w-full grid place-items-center">
+          <img src="https://via.placeholder.com/500x500" alt="#" />
         </div>
-        <div className="border">
-          <InputGroup label="Email" />
-          <InputGroup label="Password" />
-        </div>
-        <div className="border">
-          <Button variant="primary" onClick={handleLogin}>
-            Login
-          </Button>
+        <div className="px-10 py-5 flex flex-col gap-5 col-span-2 h-full w-full justify-center">
+          <div className=" p-2">
+            <h1 className="text-3xl font-medium text-dark text-center">
+              Login
+            </h1>
+          </div>
+          <div className=" flex flex-col gap-5">
+            <InputGroup
+              label="Email"
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+            />
+            <InputGroup label="Password" id="password" name="password" />
+          </div>
+          <div className="flex justify-end">
+            <span className="text-primary hover:underline cursor-pointer">
+              Forgot password?
+            </span>
+          </div>
+          <div className=" grid place-items-center">
+            <Button variant="primary" onClick={handleLogin} className="w-full">
+              Login
+            </Button>
+          </div>
+          <div className="grid place-items-center">
+            <p>
+              Don't have an account?{" "}
+              <span
+                className="text-primary hover:underline cursor-pointer"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </span>
+            </p>
+          </div>
+          <div>
+            <hr className="text-dark-300" />
+          </div>
+          <div className="grid place-items-center">
+            <GoogleButton onClick={handleLogin} text="Login with Google" />
+          </div>
         </div>
       </Box>
-    </Section>
+    </section>
   );
 }

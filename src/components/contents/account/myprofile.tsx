@@ -2,7 +2,7 @@ import { Button } from "../../button";
 import { useState } from "react";
 import { InputGroup } from "../../input/inputbox";
 
-export default function UserProfile() {
+export default function MyProfile() {
   const [profile, setProfile] = useState<string>("");
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +16,7 @@ export default function UserProfile() {
 
   return (
     <div className="w-full">
-      <div className=" p-5">
+      <div className="p-5">
         <h1 className="text-center text-2xl font-medium text-dark">
           My Profile
         </h1>
@@ -56,10 +56,30 @@ export default function UserProfile() {
           </Button>
         </div>
         <div className="flex flex-col gap-5">
-          <InputGroup label="Username" />
-          <InputGroup label="Full Name" />
-          <InputGroup label="Email Address" />
-          <InputGroup label="Phone Number" />
+          <InputGroup
+            label="Username"
+            id="username"
+            name="username"
+            autoComplete="username"
+          />
+          <InputGroup
+            label="Full Name"
+            id="fullname"
+            name="fullname"
+            autoComplete="name"
+          />
+          <InputGroup
+            label="Email Address"
+            id="email"
+            name="email"
+            autoComplete="email"
+          />
+          <InputGroup
+            label="Phone Number"
+            id="phone"
+            name="phone"
+            autoComplete="phone"
+          />
         </div>
       </div>
       <div className="p-5 grid place-content-center">

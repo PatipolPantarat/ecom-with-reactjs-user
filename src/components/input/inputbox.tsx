@@ -21,7 +21,7 @@ export const InputGroup = ({ label, className, ...props }: InputGroupProps) => {
       <label className="block font-medium text-dark" htmlFor={props.id}>
         {label}
       </label>
-      <Input className={`mt-2 ${className}`} {...props} />
+      <Input className={`mt-2 ${className}`} {...props} id={props.id} />
     </div>
   );
 };
