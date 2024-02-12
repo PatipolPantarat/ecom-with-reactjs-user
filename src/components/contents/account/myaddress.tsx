@@ -37,14 +37,14 @@ const addressList: IAddressList[] = [
 export default function MyAddress() {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className=" p-5 flex justify-between items-center">
-        <h1 className="text-lg font-medium text-dark">My Address</h1>
+      <div className="flex justify-between items-center border-b border-dark-300">
+        <h1 className="text-lg font-medium text-dark p-5">My Address</h1>
         <Button type="button" variant="primary">
           <PlusIcon className="w-5 h-5" />
           Add
         </Button>
       </div>
-      <hr className="text-dark-300" />
+
       {addressList.map((address, index) => (
         <div
           key={index}

@@ -3,6 +3,22 @@ import { Button } from "../components/button";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext";
 
+interface INavLink {
+  path: string;
+  text: string;
+}
+
+const NavLinks: INavLink[] = [
+  {
+    path: "/",
+    text: "Home",
+  },
+  {
+    path: "/setspec",
+    text: "Set Spec",
+  },
+];
+
 export const Navbar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
@@ -22,18 +38,15 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className="flex justify-evenly items-center">
-          <Link
-            to={"/"}
-            className="bg-white hover:bg-primary-light px-4 py-2 rounded-lg duration-150 cursor-pointer"
-          >
-            Home
-          </Link>
-          <Link
-            to={"/setspec"}
-            className="bg-white hover:bg-primary-light px-4 py-2 rounded-lg duration-150 cursor-pointer"
-          >
-            Set Spec
-          </Link>
+          {NavLinks.map((item, index) => (
+            <Link
+              key={index}
+              to={item.path}
+              className="bg-white hover:bg-dark-100 px-4 py-2 rounded-lg duration-150 cursor-pointer"
+            >
+              {item.text}
+            </Link>
+          ))}
         </div>
         <div className="flex justify-end items-center ">
           <div className="">

@@ -16,11 +16,10 @@ export default function MyProfile() {
 
   return (
     <div className="w-full">
-      <div className="p-5">
-        <h1 className="text-center text-2xl font-medium text-dark">
-          My Profile
-        </h1>
+      <div className="p-5 flex justify-between items-center border-b border-dark-300">
+        <h1 className="text-lg font-medium text-dark">My Profile</h1>
       </div>
+
       <div className=" p-5 grid grid-cols-2 gap-5">
         <div className="flex flex-col justify-center items-center gap-5">
           <h1 className="text-dark text-lg font-medium">Profile Picture</h1>
