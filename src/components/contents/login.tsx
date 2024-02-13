@@ -9,9 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
   const handleLogin = () => {
     login();
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    navigate("/");
   };
   return (
     <section className="max-w-[1024px] mx-auto">

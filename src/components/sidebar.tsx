@@ -35,9 +35,9 @@ const menus: IMenu[] = [
   },
   {
     icon: <TruckIcon className="w-8 h-8" />,
-    text: "My orders",
+    text: "My purchases",
     component: null,
-    path: "orders",
+    path: "purchases",
   },
 ];
 
