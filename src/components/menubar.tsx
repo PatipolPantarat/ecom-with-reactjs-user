@@ -5,7 +5,7 @@ import {
   TruckIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface IMenu {
   icon: JSX.Element;
@@ -63,6 +63,56 @@ export const Sidebar = () => {
           {menu.icon}
           <span className="text-lg font-medium">{menu.text}</span>
         </div>
+      ))}
+    </>
+  );
+};
+
+const tabs = [
+  {
+    name: "All",
+    path: "all",
+  },
+  {
+    name: "Approval",
+    path: "approval",
+  },
+  {
+    name: "Delivery",
+    path: "delivery",
+  },
+  {
+    name: "Successful",
+    path: "successful",
+  },
+  {
+    name: "Cancel",
+    path: "cancel",
+  },
+];
+
+export const Tabsbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuActive, setIsMenuActive] = useState(0);
+  const activeMenu = (index: number, path: string) => {
+    setIsMenuActive(index);
+    console.log(`${location.pathname}?tab=${path}`);
+    navigate(`${location.pathname}?tab=${path}`);
+  };
+  return (
+    <>
+      {tabs.map((tab, index) => (
+        <button
+          key={index}
+          type="button"
+          className={`p-5 border-b-2 hover:bg-dark-100
+          ${isMenuActive === index ? "border-primary" : "border-white"}
+          `}
+          onClick={() => activeMenu(index, tab.path)}
+        >
+          {tab.name}
+        </button>
       ))}
     </>
   );

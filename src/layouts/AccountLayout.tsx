@@ -1,7 +1,7 @@
 import { Box } from "../components/box";
 import { Section } from "../components/section";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Sidebar } from "../components/sidebar";
+import { Sidebar } from "../components/menubar";
 import { useAuth } from "../context/AuthContext";
 import { Outlet } from "react-router-dom";
 
