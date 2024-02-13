@@ -1,7 +1,7 @@
 import { Box } from "../components/box";
 import { Section } from "../components/section";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Sidebar } from "../components/menubar";
+import { AccountMenuBar } from "../components/menubar";
 import { useAuth } from "../context/AuthContext";
 import { Outlet } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export default function AccountLayout() {
         </div>
         <div className="flex flex-col h-full gap-1 w-full">
           <hr className="text-dark-300" />
-          <Sidebar />
+          <AccountMenuBar />
           <hr className="text-dark-300" />
         </div>
         <div className="w-full py-1">

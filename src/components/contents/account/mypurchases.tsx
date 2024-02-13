@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Tabsbar } from "../../menubar";
+import { TabsBar } from "../../menubar";
 import { useLocation } from "react-router-dom";
 import All from "./mypurchases/all";
 import Approval from "./mypurchases/approval";
@@ -20,7 +20,7 @@ export default function MyPurchases() {
       <div className="flex justify-between items-center border-b border-dark-300 pl-5">
         <h1 className="text-lg font-medium text-dark">My Orders</h1>
         <div className="grid grid-cols-5 text-dark">
-          <Tabsbar />
+          <TabsBar />
         </div>
       </div>
       <div className="flex flex-col gap-2">

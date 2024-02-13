@@ -3,14 +3,17 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.tsx";
+
+// Layout
 import MainLayout from "./layouts/MainLayout.tsx";
-import NotFound from "./components/contents/notfound.tsx";
-import SetSpec from "./components/contents/setspec.tsx";
+import AccountLayout from "./layouts/AccountLayout.tsx";
+import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
+
+// Contents
 import Login from "./components/contents/login.tsx";
 import Register from "./components/contents/register.tsx";
 import Cart from "./components/contents/cart.tsx";
 import Products from "./components/contents/products/products.tsx";
-import AccountLayout from "./layouts/AccountLayout.tsx";
 import MyProfile from "./components/contents/account/myprofile.tsx";
 import MyAddress from "./components/contents/account/myaddress.tsx";
 import MyFavorites from "./components/contents/account/myfavorites.tsx";
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/setspec",
-        element: <SetSpec />,
+        element: <SetSpecLayout />,
       },
       {
         path: "/login",

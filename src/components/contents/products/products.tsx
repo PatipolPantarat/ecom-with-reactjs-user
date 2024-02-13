@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import ProductService from "../../../services/productservice";
 import { SearchInput } from "../../searchInput";
-import Render from "./render";
 import { IProduct } from "../../../utils/interface";
 import { Section } from "../../section";
+import { Card } from "../../card";
 
 export default function Products() {
   const [searchParams, setSearchParams] = useState<string>("");
@@ -13,16 +13,32 @@ export default function Products() {
       setProductsList(data)
     );
   };
+
   useEffect(() => {
     fetchAllProducts(searchParams);
   }, [searchParams]);
+  const handleFavClick = (id: number) => {
+    console.log("fav click: ", id);
+    setProductsList(
+      productsList.map((item) =>
+        item.id === id ? { ...item, isFav: !item.isFav } : item
+      )
+    );
+  };
   return (
     <Section>
       <div className="flex justify-center py-3 mx-auto w-1/2">
         <SearchInput onChange={(value) => setSearchParams(value)} />
       </div>
-      <div className="flex flex-wrap gap-5 justify-center mt-5">
-        <Render data={productsList} />
+      <div className="mt-5 gap-2 grid lg:grid-cols-6">
+        {/* Card */}
+        {productsList.map((item) => (
+          <Card
+            key={item.id}
+            item={item}
+            onClick={() => handleFavClick(item.id)}
+          />
+        ))}
       </div>
     </Section>
   );

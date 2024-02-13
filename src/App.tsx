@@ -3,7 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 import MainLayout from "./layouts/MainLayout";
 import Products from "./components/contents/products/products";
-import SetSpec from "./components/contents/setspec";
+import SetSpec from "./components/contents/setspec/setspec";
 import AccountLayout from "./layouts/AccountLayout";
 import ProtectedRoute from "./utils/protectedRoute";
 import MyProfile from "./components/contents/account/myprofile";

@@ -41,7 +41,7 @@ const menus: IMenu[] = [
   },
 ];
 
-export const Sidebar = () => {
+export const AccountMenuBar = () => {
   const navigate = useNavigate();
   const [isMenuActive, setIsMenuActive] = useState(0);
   const activeMenu = (index: number, path: string) => {
@@ -91,7 +91,7 @@ const tabs = [
   },
 ];
 
-export const Tabsbar = () => {
+export const TabsBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuActive, setIsMenuActive] = useState(0);
@@ -113,6 +113,75 @@ export const Tabsbar = () => {
         >
           {tab.name}
         </button>
+      ))}
+    </>
+  );
+};
+
+import { PencilIcon } from "@heroicons/react/24/outline";
+import { ISpecMenu } from "../utils/interface";
+
+export const SpecMenuBar = ({
+  specMenus,
+  handleSpecMenuClick,
+}: {
+  specMenus: ISpecMenu[];
+  handleSpecMenuClick: (selectedCate: string) => void;
+}) => {
+  const [isMenuActive, setIsMenuActive] = useState(0);
+  const activeMenu = (index: number) => {
+    setIsMenuActive(index);
+    handleSpecMenuClick(specMenus[index].name);
+    console.log("active menu: ", specMenus[index].name);
+  };
+  return (
+    <>
+      {specMenus.map((item, index) => (
+        <div
+          key={index}
+          className={`h-20 bg-white grid grid-cols-5 rounded-md place-content-center border border-dark-300 px-2 gap-2 border-l-4 hover:border-primary ${
+            isMenuActive === index ? "bg-primary-light border-l-primary" : ""
+          }`}
+          onClick={() => activeMenu(index)}
+        >
+          {item.product?.image && (
+            <div className="col-span-1 flex justify-center items-center">
+              <img
+                src={item.product?.image}
+                alt=""
+                className="rounded-md h-14 w-14 object-cover"
+              />
+            </div>
+          )}
+          <div className="col-span-3 flex flex-col justify-evenly h-full">
+            <span
+              className={`text-lg text-nowrap truncate font-medium w-[180px] capitalize ${
+                !item.product.image && "ps-5"
+              }`}
+            >
+              {item.product?.name ? item.product.name : item.name}
+            </span>
+            {item.product?.name && (
+              <div className="flex gap-3 text-sm">
+                <span className="bg-info px-3 rounded-lg cursor-pointer text-white">
+                  detail
+                </span>
+                <span className="text-danger flex items-center gap-2 hover:underline cursor-pointer">
+                  amount x 1 <PencilIcon className="h-3 w-3" />
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="col-span-1 flex justify-end items-center">
+            {item.product?.price && item.product?.price !== 0 ? (
+              <span className="text-sm font-medium text-warning text-center w-full">
+                ${item.product?.price}
+              </span>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
       ))}
     </>
   );
