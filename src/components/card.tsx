@@ -1,32 +1,12 @@
-import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
+import { FavButton } from "./button";
+import { CardProps, SetSpecCardProps } from "../utils/interface";
 
-interface CardProps {
-  item: {
-    id: number;
-    isFav: boolean;
-    name: string;
-    image: string;
-    price: number;
-    sold: number;
-    category?: string;
-  };
-  favClick?: (id: number) => void;
-}
-export const Card = ({ item, favClick }: CardProps) => {
+export const Card = ({ item, favClick, cardClick }: CardProps) => {
   return (
-    <div className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md hover:border-primary hover:shadow-md duration-150">
-      <button
-        type="button"
-        onClick={() => favClick && favClick(item.id)}
-        className="absolute top-0 right-0 mt-2 me-2 rounded-lg bg-white"
-      >
-        {item.isFav ? (
-          <HeartSolid className="h-8 w-8 text-rose-500" />
-        ) : (
-          <HeartOutline className="h-8 w-8 text-rose-500" />
-        )}
-      </button>
+    <div
+      className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md hover:border-primary hover:shadow-md duration-150"
+      onClick={() => cardClick(item.id)}
+    >
       <div className="flex flex-col h-full">
         <img src={item.image} alt="#" className="w-full rounded-md" />
 
@@ -34,18 +14,17 @@ export const Card = ({ item, favClick }: CardProps) => {
           <p className="truncate max-w-full px-3 py-2">{item.name}</p>
           <div className="flex justify-between items-end px-3 py-2">
             <p>${item.price}</p>
-            <p className="text-sm text-dark-400">ขายแล้ว {item.sold} ชิ้น</p>
+            <p className="text-sm text-dark-400">sold {item.sold}</p>
           </div>
         </div>
       </div>
+      <FavButton
+        isFav={item.isFav}
+        onClick={(event) => favClick(item.id, event)}
+      />
     </div>
   );
 };
-
-interface SetSpecCardProps extends CardProps {
-  detailClick: (id: number) => void;
-  setSpecClick: (id: number) => void;
-}
 
 export const SetSpecCard = ({
   item,

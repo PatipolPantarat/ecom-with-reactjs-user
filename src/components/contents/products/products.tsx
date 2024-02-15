@@ -4,26 +4,38 @@ import { SearchInput } from "../../searchInput";
 import { IProduct } from "../../../utils/interface";
 import { Section } from "../../section";
 import { Card } from "../../card";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Products() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState<string>("");
   const [productsList, setProductsList] = useState<IProduct[]>([]);
   const fetchAllProducts = (searchParams: string) => {
-    ProductService.getProducts(searchParams).then((data) =>
-      setProductsList(data)
-    );
+    ProductService.getProducts(searchParams).then((data) => {
+      if (Array.isArray(data)) setProductsList(data);
+    });
   };
 
   useEffect(() => {
     fetchAllProducts(searchParams);
   }, [searchParams]);
-  const handleFavClick = (id: number) => {
+  const handleFavClick = (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
     console.log("fav click: ", id);
     setProductsList(
-      productsList.map((item) =>
+      productsList?.map((item) =>
         item.id === id ? { ...item, isFav: !item.isFav } : item
       )
     );
+  };
+  const handleCardClick = (id: string) => {
+    console.log(location.search);
+    // window.open("http://localhost:3000/detail/1", "_self");
+    navigate("/detail?id=" + id);
   };
   return (
     <Section>
@@ -36,7 +48,8 @@ export default function Products() {
           <Card
             key={item.id}
             item={item}
-            onClick={() => handleFavClick(item.id)}
+            favClick={handleFavClick}
+            cardClick={handleCardClick}
           />
         ))}
       </div>

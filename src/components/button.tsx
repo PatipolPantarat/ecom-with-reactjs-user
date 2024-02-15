@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -31,6 +33,28 @@ export const Button = ({
       )}
     >
       {children}
+    </button>
+  );
+};
+
+export const FavButton = ({
+  isFav,
+  onClick,
+}: {
+  isFav: boolean;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="absolute top-0 right-0 mt-2 me-2 rounded-lg bg-white z-50"
+    >
+      {isFav ? (
+        <HeartSolid className="h-8 w-8 text-rose-500" />
+      ) : (
+        <HeartOutline className="h-8 w-8 text-rose-500" />
+      )}
     </button>
   );
 };

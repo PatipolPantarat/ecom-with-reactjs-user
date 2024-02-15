@@ -90,6 +90,7 @@ export default function SetSpecLayout() {
     ProductService.getProductsByCategory(category, searchParams).then(
       (data) => {
         if (data) return setProductsList(data);
+        else return setProductsList([]);
       }
     );
   };
@@ -113,11 +114,11 @@ export default function SetSpecLayout() {
     updateItem(selectedCate.toLowerCase(), product);
   };
 
-  const updateItem = (name: string, product: IProduct) => {
+  const updateItem = (menuName: string, product: IProduct) => {
     // console.log(`menu name: ${name}\nchange p.name to : ${productName}`);
     setSpecMenus(
       specMenus.map((item) =>
-        item.name === name
+        item.name === menuName
           ? {
               ...item,
               product: {
@@ -144,6 +145,28 @@ export default function SetSpecLayout() {
     );
   };
 
+  const handleRemove = (
+    menuName: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    console.log("handleRemove Clicked");
+    setSpecMenus(
+      specMenus.map((item) =>
+        item.name === menuName
+          ? {
+              ...item,
+              product: {
+                name: "",
+                image: "",
+                price: 0,
+              },
+            }
+          : item
+      )
+    );
+  };
+
   return (
     <Section>
       <div className=" flex flex-col justify-center sm:flex-row gap-5">
@@ -160,6 +183,7 @@ export default function SetSpecLayout() {
             <SpecMenuBar
               handleSpecMenuClick={handleSpecMenuClick}
               specMenus={specMenus}
+              handleRemove={handleRemove}
             />
           </div>
 

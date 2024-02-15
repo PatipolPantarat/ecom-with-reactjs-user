@@ -119,14 +119,20 @@ export const TabsBar = () => {
 };
 
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { ISpecMenu } from "../utils/interface";
 
 export const SpecMenuBar = ({
   specMenus,
   handleSpecMenuClick,
+  handleRemove,
 }: {
   specMenus: ISpecMenu[];
   handleSpecMenuClick: (selectedCate: string) => void;
+  handleRemove: (
+    menuName: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
 }) => {
   const [isMenuActive, setIsMenuActive] = useState(0);
   const activeMenu = (index: number) => {
@@ -134,16 +140,29 @@ export const SpecMenuBar = ({
     handleSpecMenuClick(specMenus[index].name);
     console.log("active menu: ", specMenus[index].name);
   };
+
   return (
     <>
       {specMenus.map((item, index) => (
         <div
           key={index}
-          className={`h-20 bg-white grid grid-cols-5 rounded-md place-content-center border border-dark-300 px-2 gap-2 border-l-4 hover:border-primary ${
+          className={`h-20 bg-white grid grid-cols-5 rounded-md place-content-center border border-dark-300 px-2 gap-2 border-l-4 hover:border-primary relative ${
             isMenuActive === index ? "bg-primary-light border-l-primary" : ""
           }`}
           onClick={() => activeMenu(index)}
         >
+          <div
+            className={`absolute top-0 right-0 p-1 z-10 ${
+              !item.product?.image && "hidden"
+            }`}
+          >
+            <button
+              type="button"
+              onClick={(event) => handleRemove(item.name, event)}
+            >
+              <XMarkIcon className="h-5 w-5 text-danger cursor-pointer" />
+            </button>
+          </div>
           {item.product?.image && (
             <div className="col-span-1 flex justify-center items-center">
               <img

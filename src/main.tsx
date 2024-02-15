@@ -3,11 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.tsx";
+import { CartProvider } from "./context/CartContext.tsx";
 
 // Layout
 import MainLayout from "./layouts/MainLayout.tsx";
 import AccountLayout from "./layouts/AccountLayout.tsx";
 import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
+import DetailLayout from "./layouts/DetailLayout.tsx";
 
 // Contents
 import Login from "./components/contents/login.tsx";
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/detail",
+        element: <DetailLayout />,
+      },
+      {
         path: "/account",
         element: (
           <ProtectedRoute>
@@ -83,7 +89,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
     </AuthProvider>
   </React.StrictMode>
 );

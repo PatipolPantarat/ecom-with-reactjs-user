@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/button";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 interface INavLink {
   path: string;
@@ -17,11 +18,16 @@ const NavLinks: INavLink[] = [
     path: "/setspec",
     text: "Set Spec",
   },
+  {
+    path: "/detail?id=1",
+    text: "Test Detail",
+  },
 ];
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
+  const { testCart } = useCart();
   const handleLogin = () => {
     navigate("/login");
   };
@@ -49,11 +55,14 @@ export const Navbar = () => {
           ))}
         </div>
         <div className="flex justify-end items-center ">
-          <div className="">
-            <Link to={"/cart"}>
-              <ShoppingCartIcon className="h-8 w-8 text-primary hover:scale-105 duration-150" />
-            </Link>
-          </div>
+          <Link to={"/cart"}>
+            <div className="relative p-3">
+              <ShoppingCartIcon className="h-6 w-6 text-dark-400 hover:scale-105 duration-150" />
+              <div className="absolute top-0 right-0 text-sm text-primary font-bold rounded-full">
+                {testCart}
+              </div>
+            </div>
+          </Link>
           <Link to={"/account/profile"} className=" w-28 flex justify-end">
             {isAuthenticated ? "true" : "false"}
           </Link>
