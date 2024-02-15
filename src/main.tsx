@@ -10,11 +10,11 @@ import MainLayout from "./layouts/MainLayout.tsx";
 import AccountLayout from "./layouts/AccountLayout.tsx";
 import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
 import DetailLayout from "./layouts/DetailLayout.tsx";
+import CartLayout from "./layouts/CartLayout.tsx";
 
 // Contents
 import Login from "./components/contents/login.tsx";
 import Register from "./components/contents/register.tsx";
-import Cart from "./components/contents/cart.tsx";
 import Products from "./components/contents/products/products.tsx";
 import MyProfile from "./components/contents/account/myprofile.tsx";
 import MyAddress from "./components/contents/account/myaddress.tsx";
@@ -47,9 +47,9 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: (
-          <ProtectedRoute>
-            <Cart />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <CartLayout />
+          // </ProtectedRoute>
         ),
       },
       {

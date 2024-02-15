@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { IProduct } from "../utils/interface";
 
 interface ICartItem {
-  totalItem: number;
+  totalItems: number;
   eachItem: {
     amount: number;
     product: IProduct;
@@ -10,6 +10,7 @@ interface ICartItem {
   totalPrice: number;
 }
 interface CartContextType {
+  cart: ICartItem;
   addItem: (item: IProduct, amount: number) => void;
   removeItem: (id: string) => void;
   testAddCart: () => void;
@@ -21,30 +22,51 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<ICartItem>({
-    totalItem: 0,
+    totalItems: 0,
     eachItem: [],
     totalPrice: 0,
   });
   const [testCart, setTestCart] = useState<number>(0);
   const addItem = (product: IProduct, amount: number) => {
-    setCart({
-      totalItem: cart.totalItem + 1,
-      eachItem: [
-        ...cart.eachItem,
-        {
-          amount: amount,
-          product: product,
-        },
-      ],
-      totalPrice: cart.totalPrice + product.price,
-    });
-    console.log("add item: ", cart);
+    const alreadyInCart = cart.eachItem.find(
+      (item) => item.product.id === product.id
+    );
+    if (alreadyInCart) {
+      setCart({
+        totalItems: cart.totalItems,
+        eachItem: cart.eachItem.map((item) =>
+          item.product.id === product.id
+            ? { ...item, amount: item.amount + amount }
+            : item
+        ),
+        totalPrice: cart.totalPrice + product.price * amount,
+      });
+    } else {
+      setCart({
+        totalItems: cart.totalItems + 1,
+        eachItem: [
+          ...cart.eachItem,
+          {
+            amount: amount,
+            product: product,
+          },
+        ],
+        totalPrice: cart.totalPrice + product.price * amount,
+      });
+    }
+    console.log(
+      `add item: ${product.name}\ntotal: ${
+        cart.eachItem.find((item) => item.product.id === product.id)?.amount
+      }`
+    );
   };
-  const removeItem = (id: string) => {
+  const removeItem = (productId: string) => {
+    const item = cart.eachItem.find((item) => item.product.id === productId);
     setCart({
-      totalItem: cart.totalItem - 1,
-      eachItem: cart.eachItem.filter((item) => item.product.id !== id),
-      totalPrice: cart.totalPrice - cart.eachItem[id - 1].product.price,
+      totalItems: cart.totalItems - 1,
+      eachItem: cart.eachItem.filter((item) => item.product.id !== productId),
+      totalPrice:
+        cart.totalPrice - (item ? item?.amount * item?.product.price : 0),
     });
     console.log("remove item: ");
   };
@@ -56,7 +78,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     <CartContext.Provider
-      value={{ addItem, removeItem, testAddCart, testRemoveCart, testCart }}
+      value={{
+        cart,
+        addItem,
+        removeItem,
+        testAddCart,
+        testRemoveCart,
+        testCart,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -18,16 +18,12 @@ const NavLinks: INavLink[] = [
     path: "/setspec",
     text: "Set Spec",
   },
-  {
-    path: "/detail?id=1",
-    text: "Test Detail",
-  },
 ];
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
-  const { testCart } = useCart();
+  const { cart } = useCart();
   const handleLogin = () => {
     navigate("/login");
   };
@@ -59,7 +55,7 @@ export const Navbar = () => {
             <div className="relative p-3">
               <ShoppingCartIcon className="h-6 w-6 text-dark-400 hover:scale-105 duration-150" />
               <div className="absolute top-0 right-0 text-sm text-primary font-bold rounded-full">
-                {testCart}
+                {cart.totalItems}
               </div>
             </div>
           </Link>

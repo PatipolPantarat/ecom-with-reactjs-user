@@ -12,12 +12,11 @@ import { FavButton } from "../components/button";
 export default function DetailLayout() {
   const params = new URLSearchParams(useLocation().search).get("id") || "";
   const [product, setProduct] = useState<IProduct>({} as IProduct);
-  const { testAddCart } = useCart();
+  const { addItem } = useCart();
   const [amount, setAmount] = useState<number>(1);
   const fetchProductById = (id: string) => {
     ProductService.getProductsById(id).then((data) => {
       if (data) setProduct(data);
-      console.log(data);
     });
   };
   const handleFavClick = () => {
@@ -53,7 +52,7 @@ export default function DetailLayout() {
                 <button
                   type="button"
                   onClick={() => setAmount(amount > 1 ? amount - 1 : amount)}
-                  className="border p-1 border-danger rounded-md"
+                  className="border p-1 border-danger rounded-md active:scale-95 duration-150 active:bg-danger"
                 >
                   <MinusIcon className="h-4 w-4 text-danger" />
                 </button>
@@ -61,7 +60,7 @@ export default function DetailLayout() {
                 <button
                   type="button"
                   onClick={() => setAmount(amount + 1)}
-                  className="border p-1 border-success rounded-md"
+                  className="border p-1 border-success rounded-md active:scale-95 duration-150 active:bg-success"
                 >
                   <PlusIcon className="h-4 w-4 text-success" />
                 </button>
@@ -70,7 +69,7 @@ export default function DetailLayout() {
             </div>
             <Button
               type="button"
-              onClick={() => testAddCart(product, amount)}
+              onClick={() => addItem(product, amount)}
               variant="primary"
             >
               Add to cart

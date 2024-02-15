@@ -5,7 +5,7 @@ export const Products: IProduct[] = [
     isFav: true,
     name: "Acheron",
     image: "/src/assets/test_image/acheron_01.jpg",
-    price: 1999,
+    price: 100,
     sold: 20,
   },
   {
@@ -13,7 +13,7 @@ export const Products: IProduct[] = [
     isFav: true,
     name: "BlackSwan",
     image: "/src/assets/test_image/blackswan_01.jpg",
-    price: 2199,
+    price: 200,
     sold: 20,
   },
   {
@@ -21,7 +21,7 @@ export const Products: IProduct[] = [
     isFav: true,
     name: "Hanabi",
     image: "/src/assets/test_image/hanabi_01.jpg",
-    price: 2299,
+    price: 300,
     sold: 20,
   },
   {
@@ -29,7 +29,7 @@ export const Products: IProduct[] = [
     isFav: false,
     name: "Robin",
     image: "/src/assets/test_image/robin_01.jpg",
-    price: 3999,
+    price: 50,
     sold: 20,
   },
   {
@@ -37,7 +37,7 @@ export const Products: IProduct[] = [
     isFav: false,
     name: "Stelle",
     image: "/src/assets/test_image/stelle_01.jpg",
-    price: 3999,
+    price: 20,
     sold: 20,
   },
   {
