@@ -4,10 +4,9 @@ import { SearchInput } from "../../searchInput";
 import { IProduct } from "../../../utils/interface";
 import { Section } from "../../section";
 import { Card } from "../../card";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Products() {
-  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState<string>("");
   const [productsList, setProductsList] = useState<IProduct[]>([]);
@@ -33,8 +32,6 @@ export default function Products() {
     );
   };
   const handleCardClick = (id: string) => {
-    console.log(location.search);
-    // window.open("http://localhost:3000/detail/1", "_self");
     navigate("/detail?id=" + id);
   };
   return (

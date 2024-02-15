@@ -19,8 +19,8 @@ export default function DetailLayout() {
       if (data) setProduct(data);
     });
   };
-  const handleFavClick = () => {
-    console.log("fav detail click");
+  const handleFavClick = (id: string) => {
+    console.log("detail fav click:", id);
     setProduct({
       ...product,
       isFav: !product.isFav,
@@ -35,7 +35,10 @@ export default function DetailLayout() {
       <Box className="grid grid-cols-2 gap-5 place-items-center">
         <div className="max-w-[450px] aspect-square relative">
           <img src={product.image} alt="#" />
-          <FavButton isFav={product.isFav} onClick={handleFavClick} />
+          <FavButton
+            isFav={product.isFav}
+            onClick={() => handleFavClick(product.id)}
+          />
         </div>
         <div className="h-full w-full flex flex-col gap-5 justify-between">
           <div className="flex flex-col gap-5 p-5">

@@ -89,7 +89,7 @@ export default function SetSpecLayout() {
   const fetchProductsByCategory = (category: string, searchParams?: string) => {
     ProductService.getProductsByCategory(category, searchParams).then(
       (data) => {
-        if (data) return setProductsList(data);
+        if (Array.isArray(data)) setProductsList(data);
         else return setProductsList([]);
       }
     );
@@ -98,7 +98,7 @@ export default function SetSpecLayout() {
     fetchProductsByCategory(selectedCate, searchParams);
   }, [selectedCate, searchParams]);
 
-  const handleDetailClick = (id: number) => {
+  const handleDetailClick = (id: string) => {
     alert("detail click: " + id);
   };
 

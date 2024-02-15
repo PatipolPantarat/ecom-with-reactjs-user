@@ -11,9 +11,9 @@ export default function SetSpec() {
   const [searchParams, setSearchParams] = useState<string>("");
   const [productsList, setProductsList] = useState<IProduct[]>([]);
   const fetchAllProducts = (searchParams: string) => {
-    ProductService.getProducts(searchParams).then((data) =>
-      setProductsList(data)
-    );
+    ProductService.getProducts(searchParams).then((data) => {
+      if (Array.isArray(data)) setProductsList(data);
+    });
   };
   useEffect(() => {
     fetchAllProducts(searchParams);
@@ -66,10 +66,10 @@ export default function SetSpec() {
     },
   ];
 
-  const handleDetailClick = (id: number) => {
+  const handleDetailClick = (id: string) => {
     alert("detail click: " + id);
   };
-  const handleSetSpecClick = (id: number) => {
+  const handleSetSpecClick = (id: string) => {
     alert("set spec click: " + id);
   };
   return (

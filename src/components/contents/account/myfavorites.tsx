@@ -2,79 +2,32 @@ import { useState, useEffect } from "react";
 import { Card } from "../../card";
 import { IProduct } from "../../../utils/interface";
 import ProductService from "../../../services/productservice";
-
-// interface IFavList {
-//   id: number;
-//   isFav: boolean;
-//   name: string;
-//   image: string;
-//   price: number;
-//   sold: number;
-// }
-
-// const testFav: IFavList[] = [
-//   {
-//     id: 1,
-//     isFav: true,
-//     name: "Acheron",
-//     image: "/src/assets/test_image/acheron_01.jpg",
-//     price: 1999,
-//     sold: 20,
-//   },
-//   {
-//     id: 2,
-//     isFav: true,
-//     name: "BlackSwan",
-//     image: "/src/assets/test_image/blackswan_01.jpg",
-//     price: 2199,
-//     sold: 20,
-//   },
-//   {
-//     id: 3,
-//     isFav: true,
-//     name: "Hanabi",
-//     image: "/src/assets/test_image/hanabi_01.jpg",
-//     price: 2299,
-//     sold: 20,
-//   },
-//   {
-//     id: 4,
-//     isFav: false,
-//     name: "Robin",
-//     image: "/src/assets/test_image/robin_01.jpg",
-//     price: 3999,
-//     sold: 20,
-//   },
-//   {
-//     id: 5,
-//     isFav: false,
-//     name: "Stelle",
-//     image: "/src/assets/test_image/stelle_01.jpg",
-//     price: 3999,
-//     sold: 20,
-//   },
-// ];
+import { useNavigate } from "react-router-dom";
 
 export default function MyFavorites() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState<string>("");
   const [productsList, setProductsList] = useState<IProduct[]>([]);
   const fetchAllProducts = (searchParams: string) => {
-    ProductService.getProducts(searchParams).then((data) =>
-      setProductsList(data)
-    );
+    ProductService.getProducts(searchParams).then((data) => {
+      if (Array.isArray(data)) setProductsList(data);
+    });
   };
-
+  setSearchParams("");
   useEffect(() => {
     fetchAllProducts(searchParams);
   }, [searchParams]);
 
   // const [myFavList, setMyFavList] = useState<IProduct[]>([...testFav]);
-  const handleFavClick = (id: number) => {
+  const handleFavClick = (id: string) => {
     setProductsList(
       productsList.map((item) =>
         item.id === id ? { ...item, isFav: !item.isFav } : item
       )
     );
+  };
+  const handleCardClick = (id: string) => {
+    navigate("/detail?id=" + id);
   };
 
   return (
@@ -92,13 +45,14 @@ export default function MyFavorites() {
               <Card
                 key={item.id}
                 item={item}
-                onClick={() => handleFavClick(item.id)}
+                favClick={() => handleFavClick(item.id)}
+                cardClick={() => handleCardClick(item.id)}
               />
             );
         })}
       </div>
       <hr />
-      <div className="p-5 flex justify-between items-center">
+      {/* <div className="p-5 flex justify-between items-center">
         <h1 className="text-lg font-medium text-dark">Test Not Favorites</h1>
       </div>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2">
@@ -113,7 +67,7 @@ export default function MyFavorites() {
             );
           }
         })}
-      </div>
+      </div> */}
     </div>
   );
 }
