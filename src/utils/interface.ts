@@ -5,7 +5,7 @@ export interface IProduct {
   image: string;
   price: number;
   sold: number;
-  category?: string;
+  category: string;
 }
 
 export interface ISpecMenu {

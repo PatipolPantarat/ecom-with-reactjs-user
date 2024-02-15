@@ -6,17 +6,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function MyFavorites() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useState<string>("");
+  // const [searchParams, setSearchParams] = useState<string>("");
   const [productsList, setProductsList] = useState<IProduct[]>([]);
-  const fetchAllProducts = (searchParams: string) => {
-    ProductService.getProducts(searchParams).then((data) => {
+  const fetchAllProducts = () => {
+    ProductService.getProducts().then((data) => {
       if (Array.isArray(data)) setProductsList(data);
     });
   };
-  setSearchParams("");
+  // setSearchParams("");
   useEffect(() => {
-    fetchAllProducts(searchParams);
-  }, [searchParams]);
+    fetchAllProducts();
+  }, []);
 
   // const [myFavList, setMyFavList] = useState<IProduct[]>([...testFav]);
   const handleFavClick = (id: string) => {

@@ -5,10 +5,12 @@ export const CartItem = ({
   amount,
   product,
   handleAdd,
+  handleMinus,
   handleRemove,
 }: {
   amount: number;
   product: IProduct;
+  handleMinus: (product: IProduct) => void;
   handleAdd: (product: IProduct, amount: number) => void;
   handleRemove: (productId: string) => void;
 }) => {
@@ -31,7 +33,7 @@ export const CartItem = ({
           <div className="col-span-1 w-full text-center flex items-center justify-center gap-5">
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => (handleMinus(product), console.log("minus"))}
               className="bg-danger text-white p-1 rounded-lg z-10 active:scale-95 duration-150"
             >
               <MinusIcon className="w-5 h-5" />
@@ -40,7 +42,7 @@ export const CartItem = ({
             <button
               type="button"
               onClick={() => (
-                handleAdd(product, (amount = +1)), console.log("add")
+                handleAdd(product, (amount = +1)), console.log("plus")
               )}
               className="bg-success text-white p-1 rounded-lg z-10 active:scale-95 duration-150"
             >

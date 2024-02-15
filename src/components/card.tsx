@@ -8,7 +8,11 @@ export const Card = ({ item, favClick, cardClick }: CardProps) => {
       onClick={() => cardClick(item.id)}
     >
       <div className="flex flex-col h-full">
-        <img src={item.image} alt="#" className="w-full rounded-md" />
+        <img
+          src={item.image}
+          alt="#"
+          className="w-full rounded-md aspect-square object-cover"
+        />
 
         <div className="flex flex-col justify-between h-full">
           <p className="truncate max-w-full px-3 py-2">{item.name}</p>

@@ -3,7 +3,7 @@ import { CartItem } from "../components/contents/cartitem";
 import { useCart } from "../context/CartContext";
 
 export default function CartLayout() {
-  const { cart, addItem, removeItem } = useCart();
+  const { cart, addItem, minusItem, removeItem } = useCart();
 
   return (
     <Section className="grid grid-cols-3 gap-2">
@@ -35,6 +35,7 @@ export default function CartLayout() {
             amount={item.amount}
             product={item.product}
             handleAdd={addItem}
+            handleMinus={minusItem}
             handleRemove={removeItem}
           />
         ))}

@@ -11,11 +11,9 @@ interface ICartItem {
 }
 interface CartContextType {
   cart: ICartItem;
-  addItem: (item: IProduct, amount: number) => void;
+  addItem: (product: IProduct, amount: number) => void;
+  minusItem: (product: IProduct) => void;
   removeItem: (id: string) => void;
-  testAddCart: () => void;
-  testRemoveCart: () => void;
-  testCart: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -26,7 +24,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     eachItem: [],
     totalPrice: 0,
   });
-  const [testCart, setTestCart] = useState<number>(0);
   const addItem = (product: IProduct, amount: number) => {
     const alreadyInCart = cart.eachItem.find(
       (item) => item.product.id === product.id
@@ -60,6 +57,35 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       }`
     );
   };
+  const minusItem = (product: IProduct) => {
+    console.log("minus product: ", product);
+    const checkItemHasOne = cart.eachItem.find((item) => item.amount === 1);
+    if (checkItemHasOne) {
+      removeItem(checkItemHasOne.product.id);
+    } else {
+      setCart({
+        totalItems: cart.totalItems,
+        eachItem: cart.eachItem.map((item) => {
+          if (item.product.id === product.id && item.amount > 1) {
+            return { ...item, amount: item.amount - 1 };
+          } else {
+            return item;
+          }
+        }),
+        totalPrice:
+          cart.totalPrice -
+          cart.eachItem
+            .map((item) => {
+              if (item.product.id === product.id && item.amount > 1) {
+                return item.product.price;
+              } else {
+                return 0;
+              }
+            })
+            .reduce((a, b) => a + b, 0),
+      });
+    }
+  };
   const removeItem = (productId: string) => {
     const item = cart.eachItem.find((item) => item.product.id === productId);
     setCart({
@@ -70,21 +96,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
     console.log("remove item: ");
   };
-  const testAddCart = () => {
-    setTestCart(testCart + 1);
-  };
-  const testRemoveCart = () => {
-    setTestCart(testCart >= 1 ? testCart - 1 : testCart);
-  };
+
   return (
     <CartContext.Provider
       value={{
         cart,
         addItem,
+        minusItem,
         removeItem,
-        testAddCart,
-        testRemoveCart,
-        testCart,
       }}
     >
       {children}
