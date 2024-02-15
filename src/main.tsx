@@ -6,8 +6,8 @@ import { AuthProvider } from "./context/AuthContext.tsx";
 import { CartProvider } from "./context/CartContext.tsx";
 
 // Layout
-import App from "./App.tsx";
-// import MainLayout from "./layouts/MainLayout.tsx";
+// import App from "./App.tsx";
+import MainLayout from "./layouts/MainLayout.tsx";
 import AccountLayout from "./layouts/AccountLayout.tsx";
 import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
 import DetailLayout from "./layouts/DetailLayout.tsx";
@@ -26,7 +26,7 @@ import ProtectedRoute from "./utils/protectedRoute.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <MainLayout />,
     // errorElement: <NotFound />,
     children: [
       {

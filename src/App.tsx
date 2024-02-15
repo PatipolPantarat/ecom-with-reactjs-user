@@ -16,7 +16,7 @@ import Login from "./components/contents/login";
 import Register from "./components/contents/register";
 
 function App() {
-  return <MainLayout />;
+  return <></>;
 }
 
 export default App;
