@@ -32,7 +32,7 @@ export default function Products() {
     );
   };
   const handleCardClick = (id: string) => {
-    navigate("/detail?id=" + id);
+    navigate("/detail/" + id);
   };
   return (
     <Section>

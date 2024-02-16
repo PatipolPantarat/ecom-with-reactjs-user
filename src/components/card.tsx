@@ -11,7 +11,7 @@ export const Card = ({ item, favClick, cardClick }: CardProps) => {
         <img
           src={item.image}
           alt="#"
-          className="w-full rounded-md aspect-square object-cover"
+          className="w-full rounded-md object-cover"
         />
 
         <div className="flex flex-col justify-between h-full">

@@ -27,7 +27,7 @@ export default function MyFavorites() {
     );
   };
   const handleCardClick = (id: string) => {
-    navigate("/detail?id=" + id);
+    navigate("/detail/" + id);
   };
 
   return (
