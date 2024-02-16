@@ -4,13 +4,14 @@ import { Section } from "../components/section";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProductService from "../services/productservice";
 import { IProduct } from "../utils/interface";
 import { FavButton } from "../components/button";
 
 export default function DetailLayout() {
-  const params = new URLSearchParams(useLocation().search).get("id") || "";
+  const { productId } = useParams();
+  console.log("params: ", productId);
   const [product, setProduct] = useState<IProduct>({} as IProduct);
   const { addItem } = useCart();
   const [amount, setAmount] = useState<number>(1);
@@ -27,8 +28,8 @@ export default function DetailLayout() {
     });
   };
   useEffect(() => {
-    fetchProductById(params);
-  }, [params]);
+    fetchProductById(productId!);
+  }, [productId]);
   return (
     <Section className="flex flex-col gap-2 w-[1024px]">
       {/* Image, Name, Sold, Price, Amount, Quantity, Add to Card */}

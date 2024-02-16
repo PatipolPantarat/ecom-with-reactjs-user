@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "../../card";
 import { IProduct } from "../../../utils/interface";
 import ProductService from "../../../services/productservice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MyFavorites() {
   const navigate = useNavigate();
@@ -42,12 +42,9 @@ export default function MyFavorites() {
         {productsList.map((item) => {
           if (item.isFav === true)
             return (
-              <Card
-                key={item.id}
-                item={item}
-                favClick={() => handleFavClick(item.id)}
-                cardClick={() => handleCardClick(item.id)}
-              />
+              <Link to={`/detail/${item.id}`} key={item.id}>
+                <Card item={item} favClick={() => handleFavClick(item.id)} />
+              </Link>
             );
         })}
       </div>

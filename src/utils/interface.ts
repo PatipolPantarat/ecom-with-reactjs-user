@@ -21,7 +21,7 @@ export interface ISpecMenu {
 export interface CardProps {
   item: IProduct;
   favClick: (id: string, event: React.MouseEvent<HTMLButtonElement>) => void;
-  cardClick: (id: string) => void;
+  // cardClick: (id: string) => void;
 }
 
 export interface SetSpecCardProps {

@@ -1,11 +1,11 @@
 import { FavButton } from "./button";
 import { CardProps, SetSpecCardProps } from "../utils/interface";
 
-export const Card = ({ item, favClick, cardClick }: CardProps) => {
+export const Card = ({ item, favClick }: CardProps) => {
   return (
     <div
       className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md hover:border-primary hover:shadow-md duration-150"
-      onClick={() => cardClick(item.id)}
+      // onClick={() => cardClick(item.id)}
     >
       <div className="flex flex-col h-full">
         <img
