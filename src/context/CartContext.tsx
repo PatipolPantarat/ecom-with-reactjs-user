@@ -1,14 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { IProduct } from "../utils/interface";
+import { IProduct, ICartItem } from "../utils/interface";
 
-interface ICartItem {
-  totalItems: number;
-  eachItem: {
-    amount: number;
-    product: IProduct;
-  }[];
-  totalPrice: number;
-}
 interface CartContextType {
   cart: ICartItem;
   addItem: (product: IProduct, amount: number) => void;

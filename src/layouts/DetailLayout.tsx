@@ -11,7 +11,6 @@ import { FavButton } from "../components/button";
 
 export default function DetailLayout() {
   const { productId } = useParams();
-  console.log("params: ", productId);
   const [product, setProduct] = useState<IProduct>({} as IProduct);
   const { addItem } = useCart();
   const [amount, setAmount] = useState<number>(1);
@@ -22,10 +21,6 @@ export default function DetailLayout() {
   };
   const handleFavClick = (id: string) => {
     console.log("detail fav click:", id);
-    setProduct({
-      ...product,
-      isFav: !product.isFav,
-    });
   };
   useEffect(() => {
     fetchProductById(productId!);
@@ -36,10 +31,7 @@ export default function DetailLayout() {
       <Box className="grid grid-cols-2 gap-5 place-items-center">
         <div className="max-w-[450px] aspect-square relative">
           <img src={product.image} alt="#" />
-          <FavButton
-            isFav={product.isFav}
-            onClick={() => handleFavClick(product.id)}
-          />
+          <FavButton isFav={false} onClick={() => handleFavClick(product.id)} />
         </div>
         <div className="h-full w-full flex flex-col gap-5 justify-between">
           <div className="flex flex-col gap-5 p-5">

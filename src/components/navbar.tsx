@@ -22,7 +22,7 @@ const NavLinks: INavLink[] = [
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { userData, isAuthenticated, logout } = useAuth();
   const { cart } = useCart();
   const handleLogin = () => {
     navigate("/login");
@@ -60,7 +60,7 @@ export const Navbar = () => {
             </div>
           </Link>
           <Link to={"/account/profile"} className=" w-28 flex justify-end">
-            {isAuthenticated ? "true" : "false"}
+            {isAuthenticated ? userData.userProfile.username : "Account"}
           </Link>
           <div className=" w-28 flex justify-end">
             {isAuthenticated ? (

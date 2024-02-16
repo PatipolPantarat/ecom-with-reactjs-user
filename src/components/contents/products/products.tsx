@@ -4,10 +4,13 @@ import { SearchInput } from "../../searchInput";
 import { IProduct } from "../../../utils/interface";
 import { Section } from "../../section";
 import { Card } from "../../card";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../../../context/AuthContext";
 
 export default function Products() {
+  // const { userData } = useAuth();
   const navigate = useNavigate();
+  const [toggleFav, setToggleFav] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useState<string>("");
   const [productsList, setProductsList] = useState<IProduct[]>([]);
   const fetchAllProducts = (searchParams: string) => {
@@ -20,20 +23,19 @@ export default function Products() {
     fetchAllProducts(searchParams);
   }, [searchParams]);
   const handleFavClick = (
-    id: string,
+    product: IProduct,
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.stopPropagation();
-    console.log("fav click: ", id);
-    setProductsList(
-      productsList?.map((item) =>
-        item.id === id ? { ...item, isFav: !item.isFav } : item
-      )
-    );
+    console.log("fav click: ", product);
+    setToggleFav(!toggleFav);
   };
-  // const handleCardClick = (id: string) => {
-  //   navigate("/detail/" + id);
-  // };
+  const handleCardClick = (id: string) => {
+    navigate("/detail/" + id);
+  };
+
+  // !!userData.userFav.find((item) => product.id === item.id)
+
   return (
     <Section>
       <div className="flex justify-center py-3 mx-auto w-1/2">
@@ -41,14 +43,14 @@ export default function Products() {
       </div>
       <div className="mt-5 gap-2 grid lg:grid-cols-6">
         {/* Card */}
-        {productsList.map((item) => (
-          <Link key={item.id} to={"/detail/" + item.id}>
-            <Card
-              item={item}
-              favClick={handleFavClick}
-              // cardClick={handleCardClick}
-            />
-          </Link>
+        {productsList.map((product) => (
+          <Card
+            key={product.id}
+            isFav={true}
+            product={product}
+            favClick={handleFavClick}
+            cardClick={handleCardClick}
+          />
         ))}
       </div>
     </Section>

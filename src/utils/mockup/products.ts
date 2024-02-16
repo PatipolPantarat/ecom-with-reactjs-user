@@ -2,7 +2,6 @@ import { IProduct } from "../interface";
 export const Products: IProduct[] = [
   {
     id: "1",
-    isFav: true,
     name: "Acheron",
     image: "https://picsum.photos/500",
     price: 100,
@@ -11,7 +10,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "2",
-    isFav: true,
     name: "BlackSwan",
     image: "https://picsum.photos/501",
     price: 200,
@@ -20,7 +18,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "3",
-    isFav: true,
     name: "Hanabi",
     image: "https://picsum.photos/502",
     price: 300,
@@ -29,7 +26,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "4",
-    isFav: false,
     name: "Robin",
     image: "https://picsum.photos/503",
     price: 50,
@@ -38,7 +34,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "5",
-    isFav: false,
     name: "Stelle",
     image: "https://picsum.photos/504",
     price: 20,
@@ -47,7 +42,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "6",
-    isFav: true,
     name: "Acheron",
     image: "https://picsum.photos/505",
     price: 1999,
@@ -56,7 +50,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "7",
-    isFav: true,
     name: "BlackSwan",
     image: "https://picsum.photos/506",
     price: 2199,
@@ -65,7 +58,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "8",
-    isFav: true,
     name: "Hanabi",
     image: "https://picsum.photos/507",
     price: 2299,
@@ -74,7 +66,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "9",
-    isFav: false,
     name: "Robin",
     image: "https://picsum.photos/508",
     price: 3999,
@@ -83,7 +74,6 @@ export const Products: IProduct[] = [
   },
   {
     id: "10",
-    isFav: false,
     name: "Stelle",
     image: "https://picsum.photos/509",
     price: 3999,

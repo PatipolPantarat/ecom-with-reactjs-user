@@ -206,12 +206,12 @@ export default function SetSpecLayout() {
             </div>
           </div>
           <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-            {productsList.map((item) => (
+            {productsList.map((product) => (
               <SetSpecCard
-                key={item.id}
-                item={item}
-                detailClick={() => handleDetailClick(item.id)}
-                setSpecClick={() => handleSetSpecClick(item)}
+                key={product.id}
+                product={product}
+                detailClick={() => handleDetailClick(product.id)}
+                setSpecClick={() => handleSetSpecClick(product)}
               />
             ))}
           </div>

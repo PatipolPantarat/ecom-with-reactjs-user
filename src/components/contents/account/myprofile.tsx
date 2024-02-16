@@ -1,9 +1,11 @@
 import { Button } from "../../button";
 import { useState } from "react";
 import { InputGroup } from "../../input/inputbox";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function MyProfile() {
-  const [profile, setProfile] = useState<string>("");
+  const { userData } = useAuth();
+  const [profile, setProfile] = useState<string>(userData.userProfile.imageURL);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -47,6 +49,7 @@ export default function MyProfile() {
           <Button
             type="button"
             variant="primary"
+            disabled
             onClick={() =>
               document.getElementById("user_profile_image")?.click()
             }
@@ -60,29 +63,37 @@ export default function MyProfile() {
             id="username"
             name="username"
             autoComplete="username"
+            disabled
+            value={userData.userProfile.username}
           />
           <InputGroup
             label="Full Name"
             id="fullname"
             name="fullname"
             autoComplete="name"
+            disabled
+            value={userData.userProfile.fullname}
           />
           <InputGroup
             label="Email Address"
             id="email"
             name="email"
             autoComplete="email"
+            disabled
+            value={userData.userProfile.email}
           />
           <InputGroup
             label="Phone Number"
             id="phone"
             name="phone"
             autoComplete="phone"
+            disabled
+            value={userData.userProfile.phone}
           />
         </div>
       </div>
       <div className="p-5 grid place-content-center">
-        <Button type="button" variant="success">
+        <Button type="button" variant="success" disabled>
           Save Change
         </Button>
       </div>

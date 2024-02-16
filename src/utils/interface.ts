@@ -1,6 +1,5 @@
 export interface IProduct {
   id: string;
-  isFav: boolean;
   name: string;
   image: string;
   price: number;
@@ -18,14 +17,44 @@ export interface ISpecMenu {
   };
 }
 
+export interface ICartItem {
+  totalItems: number;
+  eachItem: {
+    amount: number;
+    product: IProduct;
+  }[];
+  totalPrice: number;
+}
+
+export interface IUser {
+  userProfile: {
+    username: string;
+    fullname: string;
+    email: string;
+    phone: string;
+    imageURL: string;
+  };
+  userAddress: {
+    name: string;
+    address: string;
+  }[];
+  userFav: IProduct[];
+  userPurchase: string[];
+  userCart: ICartItem;
+}
+
 export interface CardProps {
-  item: IProduct;
-  favClick: (id: string, event: React.MouseEvent<HTMLButtonElement>) => void;
-  // cardClick: (id: string) => void;
+  isFav: boolean;
+  product: IProduct;
+  favClick: (
+    product: IProduct,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  cardClick: (id: string) => void;
 }
 
 export interface SetSpecCardProps {
-  item: IProduct;
+  product: IProduct;
   detailClick: (id: string) => void;
   setSpecClick: (id: string) => void;
 }
