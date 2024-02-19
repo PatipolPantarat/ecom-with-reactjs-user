@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/button";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { useAuth } from "../context/AuthContext";
-import { useCart } from "../context/CartContext";
+
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../store";
+import { logout } from "../Slices/authSlice";
 
 interface INavLink {
   path: string;
@@ -21,14 +23,16 @@ const NavLinks: INavLink[] = [
 ];
 
 export const Navbar = () => {
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { userData, isAuthenticated, logout } = useAuth();
-  const { cart } = useCart();
   const handleLogin = () => {
     navigate("/login");
   };
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     navigate("/");
   };
   return (
@@ -55,12 +59,12 @@ export const Navbar = () => {
             <div className="relative p-3">
               <ShoppingCartIcon className="h-6 w-6 text-dark-400 hover:scale-105 duration-150" />
               <div className="absolute top-0 right-0 text-sm text-primary font-bold rounded-full">
-                {cart.totalItems}
+                {/* {cart.totalItems} */}
               </div>
             </div>
           </Link>
           <Link to={"/account/profile"} className=" w-28 flex justify-end">
-            {isAuthenticated ? userData.userProfile.username : "Account"}
+            {user ? user : "Account"}
           </Link>
           <div className=" w-28 flex justify-end">
             {isAuthenticated ? (

@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext.tsx";
-import { CartProvider } from "./context/CartContext.tsx";
+
+import { store } from "./store";
+import { Provider } from "react-redux";
 
 // Layout
-// import App from "./App.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 import AccountLayout from "./layouts/AccountLayout.tsx";
 import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
@@ -89,10 +89,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
-    </AuthProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

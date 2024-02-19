@@ -11,7 +11,7 @@ export default function MyPurchases() {
   const [tabURL, setTabURL] = useState<string>("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search).get("tab");
-  console.log(location.search);
+  // console.log(location.search);
   useEffect(() => {
     setTabURL(searchParams || "");
   }, [searchParams]);

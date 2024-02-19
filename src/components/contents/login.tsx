@@ -1,14 +1,19 @@
-import { useAuth } from "../../context/AuthContext";
 import { Button } from "../button";
 import { useNavigate } from "react-router-dom";
 import { Box } from "../box";
 import { InputGroup } from "../input/inputbox";
 import { GoogleButton } from "../googlebutton";
+
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../store";
+import { loginSuccess } from "../../Slices/authSlice";
+
 export default function Login() {
-  const { login } = useAuth();
+  const { userProfile } = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () => {
-    login();
+    dispatch(loginSuccess(userProfile.username));
     navigate("/");
   };
   return (

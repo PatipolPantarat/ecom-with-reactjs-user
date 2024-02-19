@@ -48,7 +48,7 @@ export const FavButton = ({
     <button
       type="button"
       onClick={onClick}
-      className="absolute top-0 right-0 mt-2 me-2 rounded-lg bg-white z-50"
+      className="absolute top-0 right-0 mt-2 me-2 rounded-lg bg-white"
     >
       {isFav ? (
         <HeartSolid className="h-8 w-8 text-rose-500" />

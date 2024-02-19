@@ -1,9 +1,13 @@
 import { Section } from "../components/section";
 import { CartItem } from "../components/contents/cartitem";
-import { useCart } from "../context/CartContext";
+
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../store";
+import { addItemToCart, removeItemInCart } from "../Slices/userSlice";
 
 export default function CartLayout() {
-  const { cart, addItem, minusItem, removeItem } = useCart();
+  const { userCart } = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
 
   return (
     <Section className="grid grid-cols-3 gap-2">
@@ -29,14 +33,11 @@ export default function CartLayout() {
         </div>
 
         {/* map CartList */}
-        {cart.eachItem.map((item, index) => (
+        {userCart.map((item, index) => (
           <CartItem
             key={index}
             amount={item.amount}
-            product={item.product}
-            handleAdd={addItem}
-            handleMinus={minusItem}
-            handleRemove={removeItem}
+            productId={item.productId}
           />
         ))}
       </div>
@@ -55,7 +56,7 @@ export default function CartLayout() {
             <div className="flex justify-between">
               <span className="text-lg">Total price</span>
               <span className="text-danger font-medium">
-                $ {cart.totalPrice}
+                {/* $ {cart.totalPrice} */}
               </span>
             </div>
           </div>

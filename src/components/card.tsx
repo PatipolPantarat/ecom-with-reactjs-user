@@ -8,13 +8,15 @@ export const Card = ({ isFav, product, favClick, cardClick }: CardProps) => {
       onClick={() => cardClick(product.id)}
     >
       <div className="flex flex-col h-full">
-        <img
-          src={product.image}
-          alt="#"
-          className="w-full rounded-md object-cover"
-        />
+        <div className="bg-dark-200 aspect-square">
+          <img
+            src={product.image}
+            alt="#"
+            className="w-full rounded-md h-full object-cover"
+          />
+        </div>
 
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between">
           <p className="truncate max-w-full px-3 py-2">{product.name}</p>
           <div className="flex justify-between products-end px-3 py-2">
             <p>${product.price}</p>
@@ -22,7 +24,7 @@ export const Card = ({ isFav, product, favClick, cardClick }: CardProps) => {
           </div>
         </div>
       </div>
-      <FavButton isFav={isFav} onClick={(event) => favClick(product, event)} />
+      {/* <FavButton isFav={isFav} onClick={(event) => favClick(product, event)} /> */}
     </div>
   );
 };

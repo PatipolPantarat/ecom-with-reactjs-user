@@ -5,6 +5,8 @@ export interface IProduct {
   price: number;
   sold: number;
   category: string;
+  stock: number;
+  description: string;
 }
 
 export interface ISpecMenu {
