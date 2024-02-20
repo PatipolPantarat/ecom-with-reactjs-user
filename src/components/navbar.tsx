@@ -26,6 +26,7 @@ export const Navbar = () => {
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
+  const { cartItems } = useSelector((state: RootState) => state.cart);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () => {
@@ -59,7 +60,7 @@ export const Navbar = () => {
             <div className="relative p-3">
               <ShoppingCartIcon className="h-6 w-6 text-dark-400 hover:scale-105 duration-150" />
               <div className="absolute top-0 right-0 text-sm text-primary font-bold rounded-full">
-                {/* {cart.totalItems} */}
+                {cartItems.length}
               </div>
             </div>
           </Link>

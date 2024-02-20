@@ -1,13 +1,28 @@
 import { Section } from "../components/section";
 import { CartItem } from "../components/contents/cartitem";
+import { Modal } from "../components/modal";
+import { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
-import { addItemToCart, removeItemInCart } from "../Slices/userSlice";
+import {
+  IncrementItem,
+  DecrementItem,
+  removeItemInCart,
+} from "../Slices/cartSlice";
 
 export default function CartLayout() {
-  const { userCart } = useSelector((state: RootState) => state.user);
+  const { cartItems, totalAmount, totalPrice } = useSelector(
+    (state: RootState) => state.cart
+  );
   const dispatch: AppDispatch = useDispatch();
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<string>("");
+
+  const handleRemove = (productId: string) => {
+    dispatch(removeItemInCart(productId));
+    setOpenConfirmModal(false);
+  };
 
   return (
     <Section className="grid grid-cols-3 gap-2">
@@ -33,11 +48,16 @@ export default function CartLayout() {
         </div>
 
         {/* map CartList */}
-        {userCart.map((item, index) => (
+        {cartItems.map((item, index) => (
           <CartItem
             key={index}
             amount={item.amount}
-            productId={item.productId}
+            product={item.product}
+            onRemove={() => (
+              setOpenConfirmModal(true), setSelectedItem(item.product.id)
+            )}
+            onIncrement={() => dispatch(IncrementItem(item.product.id))}
+            onDecrement={() => dispatch(DecrementItem(item.product.id))}
           />
         ))}
       </div>
@@ -48,16 +68,14 @@ export default function CartLayout() {
           <span className="font-medium">Order Summary</span>
         </div>
         <div className="bg-white rounded-md border border-dark-300 p-5 flex flex-col gap-5 justify-between items-center">
-          <div className="flex flex-col w-full py-3 border-y border-dark-300 gap-2">
-            {/* <div className="flex justify-between">
-              <span className="text-lg">Total items</span>
-              <span className="text-dark font-medium">{cart.totalItems}</span>
-            </div> */}
+          <div className="flex flex-col w-full py-3 border-y border-dark-300 gap-4">
             <div className="flex justify-between">
-              <span className="text-lg">Total price</span>
-              <span className="text-danger font-medium">
-                {/* $ {cart.totalPrice} */}
-              </span>
+              <span className="text-lg  font-medium">Total items</span>
+              <span className="text-dark font-medium">{totalAmount}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-lg font-medium">Total price</span>
+              <span className="text-danger font-medium">$ {totalPrice}</span>
             </div>
           </div>
 
@@ -66,6 +84,15 @@ export default function CartLayout() {
           </button>
         </div>
       </div>
+      {/* Confirm Del Modal */}
+      <Modal
+        title="Confirm delete"
+        description="Are you sure you want to delete this item?"
+        openModal={openConfirmModal}
+        onCancel={() => setOpenConfirmModal(false)}
+        onSubmit={() => handleRemove(selectedItem)}
+        onSubmitText="Confirm"
+      />
     </Section>
   );
 }

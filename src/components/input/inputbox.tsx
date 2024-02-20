@@ -17,7 +17,7 @@ interface InputGroupProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const InputGroup = ({ label, className, ...props }: InputGroupProps) => {
   return (
-    <div>
+    <div className="flex flex-col items-start">
       <label className="block font-medium text-dark" htmlFor={props.id}>
         {label}
       </label>

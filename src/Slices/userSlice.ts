@@ -64,18 +64,18 @@ const initialState: UserState = {
   ],
   userCart: [
     {
-      productId: "2",
       amount: 1,
+      productId: "2",
     },
     {
-      productId: "4",
       amount: 3,
+      productId: "4",
     },
     {
-      productId: "6",
       amount: 5,
+      productId: "6",
     },
-  ]
+  ],
 };
 
 export const userSlice = createSlice({
@@ -87,9 +87,18 @@ export const userSlice = createSlice({
     },
     addAddress: (
       state,
-      action: PayloadAction<UserState["userAddress"][number]>
+      action: PayloadAction<{
+        name: string;
+        phone: string;
+        address: string;
+      }>
     ) => {
-      state.userAddress.push(action.payload);
+      state.userAddress.push({
+        id: "" + (state.userAddress.length + 1),
+        name: action.payload.name,
+        phone: action.payload.phone,
+        address: action.payload.address,
+      });
     },
     editAddress: (
       state,
@@ -105,6 +114,7 @@ export const userSlice = createSlice({
           return {
             ...address,
             name: action.payload.name,
+            phone: action.payload.phone,
             address: action.payload.address,
           };
         }
@@ -117,7 +127,10 @@ export const userSlice = createSlice({
         (address) => address.id !== action.payload.id
       );
     },
-    addItemToCart: (state, action: PayloadAction<{ productId: string, amount: number }>) => {
+    addItemToCart: (
+      state,
+      action: PayloadAction<{ productId: string; amount: number }>
+    ) => {
       state.userCart.push({
         productId: action.payload.productId,
         amount: action.payload.amount,
@@ -131,6 +144,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { editProfile, addAddress, editAddress, delAddress, addItemToCart, removeItemInCart } =
-  userSlice.actions;
+export const {
+  editProfile,
+  addAddress,
+  editAddress,
+  delAddress,
+  addItemToCart,
+  removeItemInCart,
+} = userSlice.actions;
 export default userSlice.reducer;

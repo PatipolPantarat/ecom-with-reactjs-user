@@ -7,13 +7,17 @@ import { GoogleButton } from "../googlebutton";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../store";
 import { loginSuccess } from "../../Slices/authSlice";
+import { setCart } from "../../Slices/cartSlice";
 
 export default function Login() {
-  const { userProfile } = useSelector((state: RootState) => state.user);
+  const { userProfile, userCart } = useSelector(
+    (state: RootState) => state.user
+  );
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () => {
     dispatch(loginSuccess(userProfile.username));
+    dispatch(setCart(userCart));
     navigate("/");
   };
   return (

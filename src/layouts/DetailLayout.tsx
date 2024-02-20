@@ -10,6 +10,7 @@ import { FavButton } from "../components/button";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { getProduct } from "../Slices/productSlice";
+import { addItemToCart } from "../Slices/cartSlice";
 
 export default function DetailLayout() {
   const dispatch: AppDispatch = useDispatch();
@@ -69,7 +70,11 @@ export default function DetailLayout() {
                     <span>{amount}</span>
                     <button
                       type="button"
-                      onClick={() => setAmount(amount + 1)}
+                      onClick={() =>
+                        setAmount(
+                          amount < currentProduct.stock ? amount + 1 : amount
+                        )
+                      }
                       className="border p-1 border-success rounded-md active:scale-95 duration-150 active:bg-success"
                     >
                       <PlusIcon className="h-4 w-4 text-success" />
@@ -81,8 +86,10 @@ export default function DetailLayout() {
                 </div>
                 <Button
                   type="button"
-                  // onClick={() => addItem(product, amount)}
                   variant="primary"
+                  onClick={() =>
+                    dispatch(addItemToCart({ amount, product: currentProduct }))
+                  }
                 >
                   Add to cart
                 </Button>
