@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 // Layout
 import MainLayout from "./layouts/MainLayout.tsx";
 import AccountLayout from "./layouts/AccountLayout.tsx";
-import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
+// import SetSpecLayout from "./layouts/SetSpecLayout.tsx";
 import DetailLayout from "./layouts/DetailLayout.tsx";
 import CartLayout from "./layouts/CartLayout.tsx";
 
@@ -33,10 +33,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Products />,
       },
-      {
-        path: "/setspec",
-        element: <SetSpecLayout />,
-      },
+      // {
+      //   path: "/setspec",
+      //   element: <SetSpecLayout />,
+      // },
       {
         path: "/login",
         element: <Login />,
