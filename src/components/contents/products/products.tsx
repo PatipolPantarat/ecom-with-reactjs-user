@@ -30,7 +30,7 @@ export default function Products() {
   );
 
   const handleCardClick = (id: string) => {
-    navigate("/detail/" + id);
+    navigate("detail/" + id);
   };
 
   return (
