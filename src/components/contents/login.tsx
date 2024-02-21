@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../store";
 import { loginSuccess } from "../../Slices/authSlice";
 import { setCart } from "../../Slices/cartSlice";
+import { getProductsFav } from "../../Slices/userSlice";
 
 export default function Login() {
   const { userProfile, userCart } = useSelector(
@@ -18,6 +19,7 @@ export default function Login() {
   const handleLogin = () => {
     dispatch(loginSuccess(userProfile.username));
     dispatch(setCart(userCart));
+    dispatch(getProductsFav(["1", "2", "3"]));
     navigate("/");
   };
   return (

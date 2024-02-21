@@ -1,10 +1,10 @@
+import { CardProps, FavCardProps, SetSpecCardProps } from "../utils/interface";
 import { FavButton } from "./button";
-import { CardProps, SetSpecCardProps } from "../utils/interface";
 
-export const Card = ({ isFav, product, favClick, cardClick }: CardProps) => {
+export const Card = ({ product, cardClick }: CardProps) => {
   return (
     <div
-      className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md hover:border-primary hover:shadow-md duration-150"
+      className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md shadow-sm hover:shadow-lg duration-150 cursor-pointer"
       onClick={() => cardClick(product.id)}
     >
       <div className="flex flex-col h-full">
@@ -20,11 +20,51 @@ export const Card = ({ isFav, product, favClick, cardClick }: CardProps) => {
           <p className="truncate max-w-full px-3 py-2">{product.name}</p>
           <div className="flex justify-between products-end px-3 py-2">
             <p>${product.price}</p>
-            <p className="text-sm text-dark-400">sold {product.sold}</p>
+            <p className="text-sm text-dark-400 flex items-end">
+              sold {product.sold}
+            </p>
           </div>
         </div>
       </div>
-      {/* <FavButton isFav={isFav} onClick={(event) => favClick(product, event)} /> */}
+    </div>
+  );
+};
+
+export const FavCard = ({
+  product,
+  cardClick,
+  isFav,
+  favClick,
+}: FavCardProps) => {
+  return (
+    <div
+      className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md shadow-sm hover:shadow-lg duration-150 cursor-pointer"
+      onClick={() => cardClick(product.id)}
+    >
+      <div className="flex flex-col h-full">
+        <div className="bg-dark-200 aspect-square">
+          <FavButton
+            isFav={isFav}
+            onClick={(event) => favClick(product.id, event)}
+            className="absolute top-3 right-3"
+          />
+          <img
+            src={product.image}
+            alt="#"
+            className="w-full rounded-md h-full object-cover"
+          />
+        </div>
+
+        <div className="flex flex-col justify-between">
+          <p className="truncate max-w-full px-3 py-2">{product.name}</p>
+          <div className="flex justify-between products-end px-3 py-2">
+            <p>${product.price}</p>
+            <p className="text-sm text-dark-400 flex items-end">
+              sold {product.sold}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

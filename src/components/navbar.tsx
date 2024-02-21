@@ -16,10 +16,10 @@ const NavLinks: INavLink[] = [
     path: "/",
     text: "Home",
   },
-  {
-    path: "/setspec",
-    text: "Set Spec",
-  },
+  // {
+  //   path: "/setspec",
+  //   text: "Set Spec",
+  // },
 ];
 
 export const Navbar = () => {
@@ -60,7 +60,7 @@ export const Navbar = () => {
             <div className="relative p-3">
               <ShoppingCartIcon className="h-6 w-6 text-dark-400 hover:scale-105 duration-150" />
               <div className="absolute top-0 right-0 text-sm text-primary font-bold rounded-full">
-                {cartItems.length}
+                {isAuthenticated ? cartItems.length : 0}
               </div>
             </div>
           </Link>

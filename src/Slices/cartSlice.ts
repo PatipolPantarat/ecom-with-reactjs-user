@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { IProduct } from "../utils/interface";
 import axios from "axios";
+import { logout } from "./authSlice";
 interface CartItem {
   amount: number;
   product: IProduct;
@@ -132,6 +133,9 @@ export const cartSlice = createSlice({
       .addCase(setCart.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Something went wrong";
+      })
+      .addCase(logout, () => {
+        return initialState;
       });
   },
 });

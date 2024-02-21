@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IProduct } from "../utils/interface";
+import { logout } from "./authSlice";
 
 interface ProductState {
   products: IProduct[];
@@ -20,7 +21,11 @@ const apiUrl = "https://65d354c1522627d50108a48c.mockapi.io/products";
 
 export const getProducts = createAsyncThunk(
   "products/getProducts",
-  async () => {
+  async (searchParams: string) => {
+    if (searchParams) {
+      const res = await axios.get(`${apiUrl}?name=${searchParams}`);
+      return res.data;
+    }
     const res = await axios.get(`${apiUrl}`);
     return res.data;
   }
@@ -61,6 +66,9 @@ export const productSlice = createSlice({
       .addCase(getProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Something went wrong";
+      })
+      .addCase(logout, () => {
+        return initialState;
       });
   },
 });

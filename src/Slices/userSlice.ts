@@ -1,5 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IProduct } from "../utils/interface";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import { logout } from "./authSlice";
 
+const uniqueId = uuidv4();
+
+const apiUrl = "https://65d354c1522627d50108a48c.mockapi.io/products";
 interface UserState {
   userProfile: {
     username: string;
@@ -14,9 +21,7 @@ interface UserState {
     phone: string;
     address: string;
   }[];
-  userFav: {
-    productId: string;
-  }[];
+  userFav: IProduct[];
   userCart: {
     productId: string;
     amount: number;
@@ -51,17 +56,7 @@ const initialState: UserState = {
       address: "testAddress03",
     },
   ],
-  userFav: [
-    {
-      productId: "1",
-    },
-    {
-      productId: "3",
-    },
-    {
-      productId: "5",
-    },
-  ],
+  userFav: [],
   userCart: [
     {
       amount: 1,
@@ -77,6 +72,19 @@ const initialState: UserState = {
     },
   ],
 };
+
+export const getProductsFav = createAsyncThunk(
+  "user/getProductsFav",
+  async (productId: string[]) => {
+    return await Promise.all(
+      productId.map(async (id) => {
+        return await axios(`${apiUrl}/${id}`).then((data) => {
+          return data.data;
+        });
+      })
+    );
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -94,7 +102,7 @@ export const userSlice = createSlice({
       }>
     ) => {
       state.userAddress.push({
-        id: "" + (state.userAddress.length + 1),
+        id: uniqueId,
         name: action.payload.name,
         phone: action.payload.phone,
         address: action.payload.address,
@@ -127,20 +135,49 @@ export const userSlice = createSlice({
         (address) => address.id !== action.payload.id
       );
     },
-    addItemToCart: (
-      state,
-      action: PayloadAction<{ productId: string; amount: number }>
-    ) => {
-      state.userCart.push({
-        productId: action.payload.productId,
-        amount: action.payload.amount,
-      });
-    },
-    removeItemInCart: (state, action: PayloadAction<{ productId: string }>) => {
-      state.userCart = state.userCart.filter(
-        (item) => item.productId !== action.payload.productId
+    removeUserFav: (state, action: PayloadAction<string>) => {
+      state.userFav = state.userFav.filter(
+        (item) => item.id !== action.payload
       );
     },
+    toggleUserFav: (state, action: PayloadAction<IProduct>) => {
+      if (state.userFav.find((item) => item.id === action.payload.id)) {
+        state.userFav = state.userFav.filter(
+          (item) => item.id !== action.payload.id
+        );
+      } else {
+        state.userFav.push(action.payload);
+      }
+    },
+    // addItemToCart: (
+    //   state,
+    //   action: PayloadAction<{ productId: string; amount: number }>
+    // ) => {
+    //   state.userCart.push({
+    //     productId: action.payload.productId,
+    //     amount: action.payload.amount,
+    //   });
+    // },
+    // removeItemInCart: (state, action: PayloadAction<{ productId: string }>) => {
+    //   state.userCart = state.userCart.filter(
+    //     (item) => item.productId !== action.payload.productId
+    //   );
+    // },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getProductsFav.pending, (state) => {
+        state.userFav = [];
+      })
+      .addCase(getProductsFav.rejected, (state) => {
+        state.userFav = [];
+      })
+      .addCase(getProductsFav.fulfilled, (state, action) => {
+        state.userFav = action.payload;
+      })
+      .addCase(logout, () => {
+        return initialState;
+      });
   },
 });
 
@@ -149,7 +186,7 @@ export const {
   addAddress,
   editAddress,
   delAddress,
-  addItemToCart,
-  removeItemInCart,
+  removeUserFav,
+  toggleUserFav,
 } = userSlice.actions;
 export default userSlice.reducer;

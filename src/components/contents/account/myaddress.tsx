@@ -2,7 +2,7 @@ import { Button } from "../../button";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { InputGroup } from "../../input/inputbox";
-import { FormModal } from "../../modal";
+import { Modal, FormModal } from "../../modal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../store";
@@ -11,6 +11,9 @@ import { addAddress, editAddress, delAddress } from "../../../Slices/userSlice";
 export default function MyAddress() {
   const { userAddress } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
+
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
+  const [selectedDelId, setSelectedDelId] = useState<string>("");
 
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [addForm, setAddForm] = useState({
@@ -27,17 +30,6 @@ export default function MyAddress() {
     address: "",
   });
 
-  // const handleAdd = () => {
-  // setOpenAddModal(true);
-  // dispatch(
-  //   addAddress({
-  //     id: "" + (userAddress.length + 1),
-  //     name: "testName0" + (userAddress.length + 1),
-  //     phone: "00000" + (userAddress.length + 1),
-  //     address: "testAddress0" + (userAddress.length + 1),
-  //   })
-  // );
-  // };
   const handleEdit = (
     id: string,
     name: string,
@@ -53,8 +45,9 @@ export default function MyAddress() {
     });
     setOpenEditModal(true);
   };
-  const handleDel = (id: string) => {
-    dispatch(delAddress({ id }));
+  const handleDelConfirm = () => {
+    dispatch(delAddress({ id: selectedDelId }));
+    setOpenConfirmModal(false);
   };
 
   const handleAddSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,7 +88,7 @@ export default function MyAddress() {
           <div className="">
             <span className="font-medium">
               {address.name} |{" "}
-              <span className="text-dark-500">{address.id}</span>
+              <span className="text-dark-500">{address.phone}</span>
             </span>
             <p className="text-dark-400">{address.address}</p>
           </div>
@@ -118,7 +111,9 @@ export default function MyAddress() {
           <button
             type="button"
             className="absolute top-0 right-0 text-dark-400 rounded-lg hover:text-danger duration-150"
-            onClick={() => handleDel(address.id)}
+            onClick={() => (
+              setSelectedDelId(address.id), setOpenConfirmModal(true)
+            )}
           >
             <XMarkIcon className="h-6 w-6" />
           </button>
@@ -201,6 +196,14 @@ export default function MyAddress() {
           />
         </div>
       </FormModal>
+      <Modal
+        title="Confirm"
+        description="Are you sure you want to delete this address?"
+        openModal={openConfirmModal}
+        onCancel={() => setOpenConfirmModal(false)}
+        onSubmit={handleDelConfirm}
+        onSubmitText="Delete"
+      />
     </section>
   );
 }

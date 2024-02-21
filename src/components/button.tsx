@@ -40,15 +40,17 @@ export const Button = ({
 export const FavButton = ({
   isFav,
   onClick,
+  className,
 }: {
   isFav: boolean;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
 }) => {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="absolute top-0 right-0 mt-2 me-2 rounded-lg bg-white"
+      className={`bg-white p-1 rounded-md ${className}`}
     >
       {isFav ? (
         <HeartSolid className="h-8 w-8 text-rose-500" />

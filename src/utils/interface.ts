@@ -46,13 +46,16 @@ export interface IUser {
 }
 
 export interface CardProps {
-  isFav: boolean;
   product: IProduct;
+  cardClick: (id: string) => void;
+}
+
+export interface FavCardProps extends CardProps {
+  isFav: boolean;
   favClick: (
-    product: IProduct,
+    productId: string,
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
-  cardClick: (id: string) => void;
 }
 
 export interface SetSpecCardProps {
