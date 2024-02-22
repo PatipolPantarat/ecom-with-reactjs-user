@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IProduct } from "../utils/interface";
-import { logout } from "./authSlice";
 
 interface ProductState {
   products: IProduct[];
@@ -66,9 +65,6 @@ export const productSlice = createSlice({
       .addCase(getProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Something went wrong";
-      })
-      .addCase(logout, () => {
-        return initialState;
       });
   },
 });

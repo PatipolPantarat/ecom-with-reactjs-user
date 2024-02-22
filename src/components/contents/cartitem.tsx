@@ -1,5 +1,6 @@
 import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { IProduct } from "../../utils/interface";
+import commaNumber from "comma-number";
 
 export const CartItem = ({
   amount,
@@ -28,7 +29,7 @@ export const CartItem = ({
             <span>{product.name}</span>
           </div>
           <div className="col-span-2 w-full text-center">
-            <h1>${product.price}</h1>
+            <h1>${commaNumber(product.price)}</h1>
           </div>
           <div className="col-span-1 w-full flex flex-col gap-2">
             <div className="text-center flex items-center justify-center gap-5">
@@ -53,7 +54,7 @@ export const CartItem = ({
             </div>
           </div>
           <div className="col-span-2 w-full text-center">
-            <h1>${product.price * amount}</h1>
+            <h1>${commaNumber(product.price * amount)}</h1>
           </div>
           <div className="col-span-1 w-full text-center">
             <button

@@ -2,6 +2,7 @@ import { Section } from "../components/section";
 import { CartItem } from "../components/contents/cartitem";
 import { Modal } from "../components/modal";
 import { useState } from "react";
+import commaNumber from "comma-number";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
@@ -75,7 +76,9 @@ export default function CartLayout() {
             </div>
             <div className="flex justify-between">
               <span className="text-lg font-medium">Total price</span>
-              <span className="text-danger font-medium">$ {totalPrice}</span>
+              <span className="text-danger font-medium">
+                $ {commaNumber(totalPrice)}
+              </span>
             </div>
           </div>
 

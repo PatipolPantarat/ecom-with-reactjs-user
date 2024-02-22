@@ -40,7 +40,7 @@ export default function MyProfile() {
           <div className="flex flex-col justify-center items-center gap-5">
             <h1 className="text-dark text-lg font-medium">Profile Picture</h1>
             <div className="h-48 w-48">
-              <div className="border rounded-full border-dark-300">
+              <div className="border rounded-full border-dark-300 size-full">
                 {profile ? (
                   <img
                     src={profile}
