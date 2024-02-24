@@ -29,7 +29,7 @@ const menus: IMenu[] = [
   },
   {
     icon: <HeartIcon className="w-8 h-8" />,
-    text: "My Favorites",
+    text: "My favorites",
     component: null,
     path: "favorites",
   },
