@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginAPI, registerAPI } from "../utils/api";
+import { loginAPI, registerAPI } from "../api/auth";
 
 interface AuthState {
   token: string | null;
