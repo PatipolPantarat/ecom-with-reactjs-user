@@ -3,38 +3,39 @@ import { IProduct } from "../utils/interface";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { logout } from "./authSlice";
+import { IUser } from "../utils/interface";
 
 const uniqueId = uuidv4();
 
 const apiUrl = "https://65d354c1522627d50108a48c.mockapi.io/products";
-interface UserState {
-  userProfile: {
-    username: string;
-    fullname: string;
-    email: string;
-    phone: string;
-    image: string;
-  };
-  userAddress: {
-    id: string;
-    name: string;
-    phone: string;
-    address: string;
-  }[];
-  userFav: IProduct[];
-  userCart: {
-    productId: string;
-    amount: number;
-  }[];
-}
+// interface UserState {
+//   userProfile: {
+//     full_name: string;
+//     birth_date: string;
+//     phone: string;
+//     email: string;
+//     image: string;
+//   };
+//   userAddress: {
+//     id: string;
+//     name: string;
+//     phone: string;
+//     address: string;
+//   }[];
+//   userFav: IProduct[];
+//   userCart: {
+//     productId: string;
+//     amount: number;
+//   }[];
+// }
 
-const initialState: UserState = {
+const initialState: IUser = {
   userProfile: {
-    username: "testUsername",
-    fullname: "testFullname",
-    email: "test@email.com",
+    full_name: "testFull_name",
+    birth_date: new Date().toISOString().split("T")[0],
     phone: "0123456789",
-    image: "https://picsum.photos/500",
+    email: "test@email.com",
+    imageURL: "https://picsum.photos/500",
   },
   userAddress: [
     {
@@ -71,6 +72,7 @@ const initialState: UserState = {
       productId: "6",
     },
   ],
+  userPurchase: [],
 };
 
 export const getProductsFav = createAsyncThunk(
@@ -90,7 +92,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    editProfile: (state, action: PayloadAction<UserState["userProfile"]>) => {
+    editProfile: (state, action: PayloadAction<IUser["userProfile"]>) => {
       state.userProfile = action.payload;
     },
     addAddress: (

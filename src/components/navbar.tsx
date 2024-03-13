@@ -16,16 +16,11 @@ const NavLinks: INavLink[] = [
     path: "/",
     text: "Home",
   },
-  // {
-  //   path: "/setspec",
-  //   text: "Set Spec",
-  // },
 ];
 
 export const Navbar = () => {
-  const { isAuthenticated, user } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { token } = useSelector((state: RootState) => state.auth);
+
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,6 +31,7 @@ export const Navbar = () => {
     dispatch(logout());
     navigate("/");
   };
+
   return (
     <nav className="bg-white h-16 shadow-md fixed w-full z-10">
       <div className="h-full grid grid-cols-3 mx-auto max-w-[1440px] place-content-center px-2">
@@ -60,15 +56,15 @@ export const Navbar = () => {
             <div className="relative p-3">
               <ShoppingCartIcon className="h-6 w-6 text-dark-400 hover:scale-105 duration-150" />
               <div className="absolute top-0 right-0 text-sm text-primary font-bold rounded-full">
-                {isAuthenticated ? cartItems.length : 0}
+                {token ? cartItems.length : 0}
               </div>
             </div>
           </Link>
           <Link to={"/account/profile"} className=" w-28 flex justify-end">
-            {user ? user : "Account"}
+            Account
           </Link>
           <div className=" w-28 flex justify-end">
-            {isAuthenticated ? (
+            {token !== null ? (
               <Button type="button" onClick={handleLogout} variant="secondary">
                 Logout
               </Button>

@@ -2,25 +2,30 @@ import { Button } from "../button";
 import { useNavigate } from "react-router-dom";
 import { Box } from "../box";
 import { InputGroup } from "../input/inputbox";
-import { GoogleButton } from "../googlebutton";
+// import { GoogleButton } from "../googlebutton";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../store";
-import { loginSuccess } from "../../Slices/authSlice";
+import { login } from "../../Slices/authSlice";
 import { setCart } from "../../Slices/cartSlice";
 import { getProductsFav } from "../../Slices/userSlice";
+import { useState } from "react";
 
 export default function Login() {
-  const { userProfile, userCart } = useSelector(
-    (state: RootState) => state.user
-  );
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
+  const { userCart } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () => {
-    dispatch(loginSuccess(userProfile.username));
+    dispatch(login(input)).then(() => {
+      navigate("/");
+    });
+
     dispatch(setCart(userCart));
     dispatch(getProductsFav(["1", "2", "3"]));
-    navigate("/");
   };
   return (
     <section className="max-w-[1024px] mx-auto">
@@ -34,6 +39,7 @@ export default function Login() {
               Login
             </h1>
           </div>
+
           <div className=" flex flex-col gap-5">
             <InputGroup
               label="Email"
@@ -41,8 +47,17 @@ export default function Login() {
               name="email"
               type="email"
               autoComplete="email"
+              value={input.email}
+              onChange={(e) => setInput({ ...input, email: e.target.value })}
             />
-            <InputGroup label="Password" id="password" name="password" />
+            <InputGroup
+              label="Password"
+              id="password"
+              name="password"
+              type="password"
+              value={input.password}
+              onChange={(e) => setInput({ ...input, password: e.target.value })}
+            />
           </div>
           <div className="flex justify-end">
             <span className="text-primary hover:underline cursor-pointer">
@@ -69,7 +84,7 @@ export default function Login() {
             <hr className="text-dark-300" />
           </div>
           <div className="grid place-items-center">
-            <GoogleButton onClick={handleLogin} text="Login with Google" />
+            {/* <GoogleButton onClick={handleLogin} text="Login with Google" /> */}
           </div>
         </div>
       </Box>

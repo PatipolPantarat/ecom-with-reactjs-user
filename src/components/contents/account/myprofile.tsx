@@ -1,7 +1,6 @@
 import { Button } from "../../button";
-import { useState } from "react";
+import React, { useState } from "react";
 import { InputGroup } from "../../input/inputbox";
-
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../store";
 import { editProfile } from "../../../Slices/userSlice";
@@ -9,10 +8,15 @@ import { editProfile } from "../../../Slices/userSlice";
 export default function MyProfile() {
   const { userProfile } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
-  const [profile, setProfile] = useState<string>(userProfile.image);
+  const [profile, setProfile] = useState<string>(userProfile.imageURL);
 
-  // test edit fullname
-  const [fullname, setFullName] = useState<string>(userProfile.fullname);
+  // test edit full_name
+  const [editForm, setEditForm] = useState({
+    full_name: userProfile.full_name,
+    birth_date: userProfile.birth_date,
+    phone: userProfile.phone,
+    email: userProfile.email,
+  });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -26,8 +30,27 @@ export default function MyProfile() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit data: ", userProfile);
-    dispatch(editProfile({ ...userProfile, fullname }));
+    dispatch(
+      editProfile({
+        ...userProfile,
+        full_name: editForm.full_name,
+        birth_date: editForm.birth_date,
+        phone: editForm.phone,
+        email: editForm.email,
+        imageURL: profile,
+      })
+    );
     alert("profile updated");
+  };
+
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = event.target.valueAsDate;
+    if (newDate) {
+      setEditForm({
+        ...editForm,
+        birth_date: newDate.toISOString().split("T")[0],
+      });
+    }
   };
 
   return (
@@ -65,7 +88,6 @@ export default function MyProfile() {
             <Button
               type="button"
               variant="primary"
-              disabled
               onClick={() =>
                 document.getElementById("user_profile_image")?.click()
               }
@@ -75,21 +97,33 @@ export default function MyProfile() {
           </div>
           <div className="flex flex-col gap-5">
             <InputGroup
-              label="Username"
-              id="username"
-              name="username"
-              autoComplete="username"
-              disabled
-              value={userProfile.username}
+              label="Full Name"
+              id="full_name"
+              name="full_name"
+              autoComplete="name"
+              value={editForm.full_name}
+              onChange={(e) => {
+                setEditForm({ ...editForm, full_name: e.target.value });
+              }}
             />
             <InputGroup
-              label="Full Name"
-              id="fullname"
-              name="fullname"
-              autoComplete="name"
-              value={fullname}
+              label="Birth Date"
+              id="birth_date"
+              name="birth_date"
+              autoComplete="birth_date"
+              type="date"
+              value={editForm.birth_date}
+              onChange={handleDateChange}
+            />
+            {/* <DatePicker /> */}
+            <InputGroup
+              label="Phone Number"
+              id="phone"
+              name="phone"
+              autoComplete="phone"
+              value={editForm.phone}
               onChange={(e) => {
-                setFullName(e.target.value);
+                setEditForm({ ...editForm, phone: e.target.value });
               }}
             />
             <InputGroup
@@ -97,16 +131,10 @@ export default function MyProfile() {
               id="email"
               name="email"
               autoComplete="email"
-              disabled
-              value={userProfile.email}
-            />
-            <InputGroup
-              label="Phone Number"
-              id="phone"
-              name="phone"
-              autoComplete="phone"
-              disabled
-              value={userProfile.phone}
+              value={editForm.email}
+              onChange={(e) => {
+                setEditForm({ ...editForm, email: e.target.value });
+              }}
             />
           </div>
         </div>

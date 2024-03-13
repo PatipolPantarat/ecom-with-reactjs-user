@@ -30,19 +30,24 @@ export interface ICartItem {
 
 export interface IUser {
   userProfile: {
-    username: string;
-    fullname: string;
-    email: string;
+    full_name: string;
+    birth_date: string;
     phone: string;
+    email: string;
     imageURL: string;
   };
   userAddress: {
+    id: string;
     name: string;
+    phone: string;
     address: string;
   }[];
   userFav: IProduct[];
   userPurchase: string[];
-  userCart: ICartItem;
+  userCart: {
+    amount: number;
+    productId: string;
+  }[];
 }
 
 export interface CardProps {

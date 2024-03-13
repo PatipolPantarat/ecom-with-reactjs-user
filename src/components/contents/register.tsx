@@ -1,15 +1,33 @@
 import { Button } from "../button";
 import { Box } from "../box";
 import { InputGroup } from "../input/inputbox";
-import { GoogleButton } from "../googlebutton";
+// import { GoogleButton } from "../googlebutton";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
+import { register } from "../../Slices/authSlice";
 
 export default function Register() {
+  const dispatch: AppDispatch = useDispatch();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const navigate = useNavigate();
   const handleRegister = () => {
-    alert("register completed");
-    navigate("/login");
+    // Check if passwords match
+    if (input.password !== input.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    // Call API
+    dispatch(register(input)).then(() => {
+      navigate("/");
+    });
   };
+
   return (
     <section className="max-w-[1024px] mx-auto">
       <Box className="grid grid-cols-5 place-items-center">
@@ -23,9 +41,33 @@ export default function Register() {
             </h1>
           </div>
           <div className=" flex flex-col gap-5">
-            <InputGroup label="Email" />
-            <InputGroup label="Password" />
-            <InputGroup label="Confirm Password" />
+            <InputGroup
+              label="Email"
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              value={input.email}
+              onChange={(e) => setInput({ ...input, email: e.target.value })}
+            />
+            <InputGroup
+              label="Password"
+              id="password"
+              name="password"
+              type="password"
+              value={input.password}
+              onChange={(e) => setInput({ ...input, password: e.target.value })}
+            />
+            <InputGroup
+              label="Confirm Password"
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              value={input.confirmPassword}
+              onChange={(e) =>
+                setInput({ ...input, confirmPassword: e.target.value })
+              }
+            />
           </div>
 
           <div className=" grid place-items-center">
@@ -52,10 +94,10 @@ export default function Register() {
             <hr className="text-dark-300" />
           </div>
           <div className="grid place-items-center">
-            <GoogleButton
+            {/* <GoogleButton
               onClick={handleRegister}
               text="Register with Google"
-            />
+            /> */}
           </div>
         </div>
       </Box>

@@ -18,13 +18,13 @@ export default function AccountLayout() {
           <div className="flex flex-col items-center p-4 gap-5 text-dark">
             <div className="border border-dark-300 rounded-full">
               <img
-                src={userProfile.image}
+                src={userProfile.imageURL}
                 alt="#"
                 className="rounded-full h-24 w-24"
               />
             </div>
-            <span className="text-2xl font-medium text-center">
-              {userProfile.username}
+            <span className="text-dark-600 text-2xl font-medium text-center truncate w-full">
+              {userProfile.email}
             </span>
           </div>
         </div>
