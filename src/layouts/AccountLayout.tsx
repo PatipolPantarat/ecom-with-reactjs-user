@@ -7,24 +7,25 @@ import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { logout } from "../Slices/authSlice";
+import { useEffect } from "react";
+import { getCurrentUser } from "../Slices/userSlice";
 
 export default function AccountLayout() {
-  const { userProfile } = useSelector((state: RootState) => state.user);
+  const { imageUrl, email } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
   return (
     <Section className="grid grid-cols-4 gap-2">
       <Box className="col-span-1 flex flex-col gap-5 h-fit">
         <div className="w-full">
           <div className="flex flex-col items-center p-4 gap-5 text-dark">
             <div className="border border-dark-300 rounded-full">
-              <img
-                src={userProfile.imageURL}
-                alt="#"
-                className="rounded-full h-24 w-24"
-              />
+              <img src={imageUrl} alt="#" className="rounded-full h-24 w-24" />
             </div>
             <span className="text-dark-600 text-2xl font-medium text-center truncate w-full">
-              {userProfile.email}
+              {email}
             </span>
           </div>
         </div>

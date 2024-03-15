@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../store";
 import { login } from "../../Slices/authSlice";
 import { setCart } from "../../Slices/cartSlice";
-import { getProductsFav } from "../../Slices/userSlice";
+import { getCurrentUser } from "../../Slices/userSlice";
 import { useState } from "react";
 
 export default function Login() {
@@ -16,16 +16,17 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const { userCart } = useSelector((state: RootState) => state.user);
+  // const { userCart } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () => {
     dispatch(login(input)).then(() => {
+      // Get current user data
+      dispatch(getCurrentUser());
       navigate("/");
     });
 
-    dispatch(setCart(userCart));
-    dispatch(getProductsFav(["1", "2", "3"]));
+    // dispatch(getProductsFav(["1", "2", "3"]));
   };
   return (
     <section className="max-w-[1024px] mx-auto">

@@ -6,10 +6,10 @@ import { Modal, FormModal } from "../../modal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../store";
-import { addAddress, editAddress, delAddress } from "../../../Slices/userSlice";
+import { editAddress, delAddress } from "../../../Slices/userSlice";
 
 export default function MyAddress() {
-  const { userAddress } = useSelector((state: RootState) => state.user);
+  const { addresses } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
@@ -17,6 +17,7 @@ export default function MyAddress() {
 
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [addForm, setAddForm] = useState({
+    _id: "",
     name: "",
     phone: "",
     address: "",
@@ -24,21 +25,20 @@ export default function MyAddress() {
 
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [editForm, setEditForm] = useState({
-    id: "",
+    _id: "",
     name: "",
     phone: "",
     address: "",
   });
 
   const handleEdit = (
-    id: string,
+    _id: string,
     name: string,
     phone: string,
     address: string
   ) => {
     setEditForm({
-      ...editForm,
-      id,
+      _id,
       name,
       phone,
       address,
@@ -46,15 +46,16 @@ export default function MyAddress() {
     setOpenEditModal(true);
   };
   const handleDelConfirm = () => {
-    dispatch(delAddress({ id: selectedDelId }));
+    dispatch(delAddress({ _id: selectedDelId }));
     setOpenConfirmModal(false);
   };
 
   const handleAddSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(addAddress(addForm));
+    // dispatch(addAddress(addForm));
     setOpenAddModal(false);
     setAddForm({
+      _id: "",
       name: "",
       phone: "",
       address: "",
@@ -80,9 +81,9 @@ export default function MyAddress() {
         </Button>
       </div>
 
-      {userAddress.map((address) => (
+      {addresses.map((address) => (
         <div
-          key={address.id}
+          key={address._id}
           className=" p-5 flex justify-between gap-5 border-b border-dark-300 relative"
         >
           <div className="">
@@ -98,7 +99,7 @@ export default function MyAddress() {
               variant="warning"
               onClick={() =>
                 handleEdit(
-                  address.id,
+                  address._id,
                   address.name,
                   address.phone,
                   address.address
@@ -112,7 +113,7 @@ export default function MyAddress() {
             type="button"
             className="absolute top-0 right-0 text-dark-400 rounded-lg hover:text-danger duration-150"
             onClick={() => (
-              setSelectedDelId(address.id), setOpenConfirmModal(true)
+              setSelectedDelId(address._id), setOpenConfirmModal(true)
             )}
           >
             <XMarkIcon className="h-6 w-6" />

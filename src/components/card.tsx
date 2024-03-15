@@ -5,7 +5,7 @@ export const Card = ({ product, cardClick }: CardProps) => {
   return (
     <div
       className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md shadow-sm hover:shadow-lg duration-150 cursor-pointer"
-      onClick={() => cardClick(product.id)}
+      onClick={() => cardClick(product._id)}
     >
       <div className="flex flex-col h-full">
         <div className="bg-dark-200 aspect-square">
@@ -39,13 +39,13 @@ export const FavCard = ({
   return (
     <div
       className="aspect-[3/4] max-w-[260px] relative bg-white border border-dark-300 rounded-md shadow-sm hover:shadow-lg duration-150 cursor-pointer"
-      onClick={() => cardClick(product.id)}
+      onClick={() => cardClick(product._id)}
     >
       <div className="flex flex-col h-full">
         <div className="bg-dark-200 aspect-square">
           <FavButton
             isFav={isFav}
-            onClick={(event) => favClick(product.id, event)}
+            onClick={(event) => favClick(product._id, event)}
             className="absolute top-3 right-3"
           />
           <img
@@ -97,14 +97,14 @@ export const SetSpecCard = ({
           <div className="grid grid-cols-2 cursor-pointer">
             <button
               type="button"
-              onClick={() => setSpecClick(product.id)}
+              onClick={() => setSpecClick(product._id)}
               className="p-1 bg-primary text-white rounded-bl-md"
             >
               Add to spec
             </button>
             <button
               type="button"
-              onClick={() => detailClick(product.id)}
+              onClick={() => detailClick(product._id)}
               className="p-1 bg-secondary text-white rounded-br-md"
             >
               Detail

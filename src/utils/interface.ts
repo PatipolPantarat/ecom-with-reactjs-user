@@ -1,12 +1,16 @@
 export interface IProduct {
-  id: string;
+  _id: string;
   name: string;
-  image: string;
+  description: string;
   price: number;
-  sold: number;
   category: string;
   stock: number;
-  description: string;
+  sold: number;
+  image: string;
+  status: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
 }
 
 export interface ISpecMenu {
@@ -29,25 +33,19 @@ export interface ICartItem {
 }
 
 export interface IUser {
-  userProfile: {
-    full_name: string;
-    birth_date: string;
-    phone: string;
-    email: string;
-    imageURL: string;
-  };
-  userAddress: {
-    id: string;
-    name: string;
-    phone: string;
-    address: string;
-  }[];
-  userFav: IProduct[];
-  userPurchase: string[];
-  userCart: {
-    amount: number;
-    productId: string;
-  }[];
+  _id: string;
+  email: string;
+  password: string;
+  role: string;
+  fullName: string;
+  phoneNumber: string;
+  imageUrl: string;
+  favorites: string[];
+  addresses: IAddress[];
+  orders: IOrder[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
 }
 
 export interface CardProps {
@@ -67,4 +65,43 @@ export interface SetSpecCardProps {
   product: IProduct;
   detailClick: (id: string) => void;
   setSpecClick: (id: string) => void;
+}
+
+export interface IAddress {
+  _id?: string;
+  userId: string;
+  name: string;
+  phone: string;
+  address: string;
+  province?: string;
+  district?: string;
+  subdistrict?: string;
+  zipCode?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ICategory {
+  _id: string;
+  name: string;
+  status: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
+}
+
+export interface IOrder {
+  _id: string;
+  userId: string;
+  products: {
+    productId: string;
+    quantity: number;
+    price: number;
+  }[];
+  total_price: number;
+  shippingAddress: IAddress;
+  status: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
 }

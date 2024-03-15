@@ -36,3 +36,43 @@ export const loginAPI = async ({
     return null;
   }
 };
+
+export const getMeAPI = async (token: string) => {
+  try {
+    const response = await apiUrl.get("/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const changePasswordAPI = async ({
+  oldPassword,
+  newPassword,
+}: {
+  oldPassword: string;
+  newPassword: string;
+}) => {
+  const token = localStorage.getItem("token");
+  if (!token) return console.error("changePassword: token not found");
+  try {
+    const response = await apiUrl.put(
+      "/change-password",
+      { oldPassword, newPassword },
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};

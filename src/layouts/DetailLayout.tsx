@@ -21,21 +21,21 @@ export default function DetailLayout() {
   const { currentProduct, status, error } = useSelector(
     (state: RootState) => state.products
   );
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const { userFav } = useSelector((state: RootState) => state.user);
+  const { token } = useSelector((state: RootState) => state.auth);
+  const { favorites } = useSelector((state: RootState) => state.user);
   const { productId } = useParams();
   const [amount, setAmount] = useState<number>(1);
   const [alertModal, setAlertModal] = useState<boolean>(false);
 
   const handleFavClick = (product: IProduct) => {
-    isAuthenticated ? dispatch(toggleUserFav(product)) : setAlertModal(true);
+    token ? dispatch(toggleUserFav(product._id)) : setAlertModal(true);
   };
   useEffect(() => {
     dispatch(getProduct(productId as string));
   }, [productId, dispatch]);
 
   const handleAddToCart = () => {
-    isAuthenticated
+    token
       ? dispatch(addItemToCart({ amount, product: currentProduct }))
       : setAlertModal(true);
   };
@@ -64,9 +64,7 @@ export default function DetailLayout() {
                 <p className="text-4xl font-bold flex items-center justify-between">
                   ${currentProduct.price}{" "}
                   <FavButton
-                    isFav={userFav.some(
-                      (product) => product.id === currentProduct.id
-                    )}
+                    isFav={favorites.some((id) => id === currentProduct._id)}
                     onClick={() => handleFavClick(currentProduct)}
                   />
                 </p>
@@ -117,15 +115,20 @@ export default function DetailLayout() {
               <h1 className="text-xl font-medium">Description</h1>
             </div>
             <div className="border border-dark-300 w-full p-3">
-              <p className="text-md">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequuntur harum commodi doloribus cupiditate quae modi,
-                architecto doloremque autem quam accusamus quod deleniti
-                consequatur sint distinctio saepe error aliquid eum aliquam
-                earum expedita. Et perferendis aliquid repellat asperiores!
-                Aliquid voluptatum, quae repudiandae tempora culpa eius
-                molestias quas repellendus vero, laborum laboriosam!
-              </p>
+              {currentProduct.description &&
+              currentProduct.description !== "string" ? (
+                <p className="text-md">{currentProduct.description}</p>
+              ) : (
+                <p className="text-md">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Consequuntur harum commodi doloribus cupiditate quae modi,
+                  architecto doloremque autem quam accusamus quod deleniti
+                  consequatur sint distinctio saepe error aliquid eum aliquam
+                  earum expedita. Et perferendis aliquid repellat asperiores!
+                  Aliquid voluptatum, quae repudiandae tempora culpa eius
+                  molestias quas repellendus vero, laborum laboriosam!
+                </p>
+              )}
             </div>
           </Box>
         </>

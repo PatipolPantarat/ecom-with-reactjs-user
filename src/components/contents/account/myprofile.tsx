@@ -1,56 +1,85 @@
 import { Button } from "../../button";
-import React, { useState } from "react";
 import { InputGroup } from "../../input/inputbox";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../store";
-import { editProfile } from "../../../Slices/userSlice";
+import { editProfile, updateCurrentUser } from "../../../Slices/userSlice";
+import { useState } from "react";
+import { FormModal, OKModal } from "../../modal";
+import { changePasswordAPI } from "../../../api/auth";
 
 export default function MyProfile() {
-  const { userProfile } = useSelector((state: RootState) => state.user);
-  const dispatch: AppDispatch = useDispatch();
-  const [profile, setProfile] = useState<string>(userProfile.imageURL);
-
-  // test edit full_name
-  const [editForm, setEditForm] = useState({
-    full_name: userProfile.full_name,
-    birth_date: userProfile.birth_date,
-    phone: userProfile.phone,
-    email: userProfile.email,
+  const [openChangePasswordModal, setOpenChangePasswordModal] =
+    useState<boolean>(false);
+  const [openOKModal, setOpenOKModal] = useState<boolean>(false);
+  const [editPasswordForm, setEditPasswordForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
+  const { fullName, phoneNumber, email, imageUrl } = useSelector(
+    (state: RootState) => state.user
+  );
+  const dispatch: AppDispatch = useDispatch();
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     const reader = new FileReader();
     reader.onload = () => {
-      setProfile(reader.result as string);
+      dispatch(
+        editProfile({
+          imageUrl: reader.result as string,
+          fullName,
+          phoneNumber,
+        })
+      );
     };
     reader.readAsDataURL(file as Blob);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit data: ", userProfile);
+    // update user data to server
     dispatch(
-      editProfile({
-        ...userProfile,
-        full_name: editForm.full_name,
-        birth_date: editForm.birth_date,
-        phone: editForm.phone,
-        email: editForm.email,
-        imageURL: profile,
+      updateCurrentUser({
+        fullName,
+        phoneNumber,
+        imageUrl,
       })
-    );
-    alert("profile updated");
+    )
+      .then(() => {
+        console.log("User data updated successfully");
+      })
+      .catch((error) => {
+        console.error("Failed to update user data:", error);
+      });
   };
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = event.target.valueAsDate;
-    if (newDate) {
-      setEditForm({
-        ...editForm,
-        birth_date: newDate.toISOString().split("T")[0],
-      });
+  const handleChangePasswordSubmit = (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    // check if passwords match
+    if (editPasswordForm.newPassword !== editPasswordForm.confirmPassword) {
+      alert("Passwords do not match");
+      return;
     }
+    // send change password to server
+    changePasswordAPI({
+      oldPassword: editPasswordForm.oldPassword,
+      newPassword: editPasswordForm.newPassword,
+    })
+      .then(() => {
+        setOpenChangePasswordModal(false);
+        setEditPasswordForm({
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+        setOpenOKModal(true);
+      })
+      .catch((error) => {
+        console.error("Failed to change password:", error);
+      });
   };
 
   return (
@@ -64,9 +93,9 @@ export default function MyProfile() {
             <h1 className="text-dark text-lg font-medium">Profile Picture</h1>
             <div className="h-48 w-48">
               <div className="border rounded-full border-dark-300 size-full">
-                {profile ? (
+                {imageUrl ? (
                   <img
-                    src={profile}
+                    src={imageUrl}
                     alt="#"
                     className="rounded-full h-full w-full"
                   />
@@ -83,6 +112,7 @@ export default function MyProfile() {
                 id="user_profile_image"
                 onChange={handleImageChange}
                 className="hidden"
+                accept="image/*"
               />
             </div>
             <Button
@@ -98,44 +128,56 @@ export default function MyProfile() {
           <div className="flex flex-col gap-5">
             <InputGroup
               label="Full Name"
-              id="full_name"
-              name="full_name"
+              id="fullName"
+              name="fullName"
+              type="text"
               autoComplete="name"
-              value={editForm.full_name}
+              defaultValue={fullName}
               onChange={(e) => {
-                setEditForm({ ...editForm, full_name: e.target.value });
+                dispatch(
+                  editProfile({
+                    fullName: e.target.value,
+                    phoneNumber,
+                    imageUrl,
+                  })
+                );
               }}
             />
-            <InputGroup
-              label="Birth Date"
-              id="birth_date"
-              name="birth_date"
-              autoComplete="birth_date"
-              type="date"
-              value={editForm.birth_date}
-              onChange={handleDateChange}
-            />
-            {/* <DatePicker /> */}
+
             <InputGroup
               label="Phone Number"
-              id="phone"
-              name="phone"
-              autoComplete="phone"
-              value={editForm.phone}
+              id="phoneNumber"
+              name="phoneNumber"
+              type="tel"
+              autoComplete="phoneNumber"
+              defaultValue={phoneNumber}
               onChange={(e) => {
-                setEditForm({ ...editForm, phone: e.target.value });
+                dispatch(
+                  editProfile({
+                    phoneNumber: e.target.value,
+                    fullName,
+                    imageUrl,
+                  })
+                );
               }}
             />
             <InputGroup
               label="Email Address"
               id="email"
               name="email"
+              type="email"
               autoComplete="email"
-              value={editForm.email}
-              onChange={(e) => {
-                setEditForm({ ...editForm, email: e.target.value });
-              }}
+              defaultValue={email}
+              disabled
             />
+            {/* Change password */}
+            <Button
+              type="button"
+              variant="warning"
+              onClick={() => setOpenChangePasswordModal(true)}
+            >
+              <span>Change Password</span>
+            </Button>
           </div>
         </div>
 
@@ -145,6 +187,73 @@ export default function MyProfile() {
           </Button>
         </div>
       </form>
+      {/* Alert save change modal */}
+      {/* edit model */}
+      <FormModal
+        title="Change password"
+        openModal={openChangePasswordModal}
+        onCancel={() => {
+          setOpenChangePasswordModal(false);
+          setEditPasswordForm({
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+          });
+        }}
+        onSubmit={(e) => handleChangePasswordSubmit(e)}
+        onSubmitText="Submit"
+      >
+        <div className="mt-5 flex flex-col gap-5">
+          <InputGroup
+            label="Old password"
+            id="oldPassword"
+            name="oldPassword"
+            type="password"
+            defaultValue={editPasswordForm.oldPassword}
+            onChange={(e) =>
+              setEditPasswordForm({
+                ...editPasswordForm,
+                oldPassword: e.target.value,
+              })
+            }
+          />
+          <InputGroup
+            label="New password"
+            id="newPassword"
+            name="newPassword"
+            type="password"
+            defaultValue={editPasswordForm.newPassword}
+            onChange={(e) =>
+              setEditPasswordForm({
+                ...editPasswordForm,
+                newPassword: e.target.value,
+              })
+            }
+          />
+          <InputGroup
+            label="Confirm password"
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            defaultValue={editPasswordForm.confirmPassword}
+            onChange={(e) =>
+              setEditPasswordForm({
+                ...editPasswordForm,
+                confirmPassword: e.target.value,
+              })
+            }
+          />
+        </div>
+      </FormModal>
+      {/* Alert OK modal */}
+      <OKModal
+        title="Alert"
+        description="Change password successfully"
+        openModal={openOKModal}
+        onCancel={() => setOpenOKModal(false)}
+        onSubmit={() => setOpenOKModal(false)}
+        onSubmitText="OK"
+      />
     </div>
   );
 }

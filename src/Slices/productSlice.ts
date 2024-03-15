@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { IProduct } from "../utils/interface";
+import { getProductAPI, getProductsAPI } from "../api/products";
 
 interface ProductState {
   products: IProduct[];
@@ -16,25 +16,25 @@ const initialState: ProductState = {
   error: null,
 };
 
-const apiUrl = "https://65d354c1522627d50108a48c.mockapi.io/products";
-
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (searchParams: string) => {
-    if (searchParams) {
-      const res = await axios.get(`${apiUrl}?name=${searchParams}`);
-      return res.data;
+    const res = await getProductsAPI(searchParams ? searchParams : "");
+    if (!res) {
+      throw new Error("Products not found");
     }
-    const res = await axios.get(`${apiUrl}`);
-    return res.data;
+    return res;
   }
 );
 
 export const getProduct = createAsyncThunk(
   "products/getProduct",
-  async (productId: string) => {
-    const res = await axios.get(`${apiUrl}/${productId}`);
-    return res.data;
+  async (id: string) => {
+    const res = await getProductAPI(id);
+    if (!res) {
+      throw new Error("Product not found");
+    }
+    return res;
   }
 );
 

@@ -60,7 +60,7 @@ export const Navbar = () => {
               </div>
             </div>
           </Link>
-          <Link to={"/account/profile"} className=" w-28 flex justify-end">
+          <Link to={"/account/profile"} className="w-28 flex justify-end">
             Account
           </Link>
           <div className=" w-28 flex justify-end">
